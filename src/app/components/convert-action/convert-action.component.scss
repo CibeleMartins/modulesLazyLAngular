@@ -1,0 +1,22 @@
+
+#show-converter-action {
+    border: none;
+    padding: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.589);
+    border-radius: 14px;
+    background-color: #aceb2f;
+    animation: slide-down 300ms ease-out forwards;
+    width: 100px;
+    cursor: pointer;
+
+    @keyframes slide-down {
+      from {
+        opacity: 0;
+        transform: translateY(-3rem);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+  }
+}

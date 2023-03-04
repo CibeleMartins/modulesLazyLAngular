@@ -1,0 +1,23 @@
+<div [ngStyle]="{width: '100%', height: '30vh' , display: 'flex', alignItems: 'center', justifyContent: 'center'}">
+  <!-- <button id="show-converter-action" *ngIf="!displayConverter" (click)="showConverter()">
+    <span class="material-symbols-outlined"> currency_exchange </span>
+</button> -->
+  <app-convert-action></app-convert-action>
+  <div id="converter-coin" *ngIf="displayConverter">
+    <div id="close-container"><span id="close-action" class="material-symbols-outlined" (click)="closeConverter()"> close</span></div>
+    <div class="coin-action-control">
+      <select name="coin1" id="coin-action" [(ngModel)]="selectedCoinBase">
+        <option *ngFor="let coinOption of coinsConversionOption">{{coinOption}}</option>
+      </select>
+      <select name="coin2" id="coin-action" [(ngModel)]="selectedCoinConversion">
+        <option *ngFor="let coinOption of coinsConversionOption">{{coinOption}}</option>
+      </select>
+      <input  [(ngModel)]="valueCoin" type="number" placeholder="Valor" />
+    </div>
+
+    <div [ngStyle]="{display: 'flex', justifyContent: 'space-between', padding: '1em', height: '40px'}">
+        <p id="result-conversion">{{result}}</p>
+        <button id="convert-action" type="button" (click)="convert(valueCoin, selectedCoinBase, selectedCoinConversion)">Converter</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,50 @@
+#card {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.589);
+    border-radius: 14px;
+    // background-color: rgba(255, 255, 255, 0.075);
+    background-color: #232323;
+    animation: slide-down 300ms ease-out forwards;
+    width: 100%;
+
+    @keyframes slide-down {
+      from {
+        opacity: 0;
+        transform: translateY(-3rem);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+}
+
+.coin {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-around;
+  align-items: center;
+} 
+
+.code {
+  color: white;
+  display: flex;
+  letter-spacing: 2px;
+  align-items: center;
+  width: 100px;
+  padding-left: 1em;
+  justify-content: space-evenly;
+}
+
+.price {
+  color: rgba(255, 255, 255, 0.699);
+  display: flex;
+  align-items: center;
+  width: 100px;
+  // max-width: 100%;
+  justify-content: space-around;
+}
+
+.img-coin {
+ width: 20px;
+}

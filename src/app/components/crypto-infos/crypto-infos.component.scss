@@ -1,0 +1,67 @@
+#slide-wrapper {
+    width: 90%;
+    height: 7vh;
+    background-color: black;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-radius: 14px;
+    overflow-x: scroll;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+}
+
+#info {
+    font-size: 15px;
+    letter-spacing: 2px;
+}
+
+.crypto-icon {
+    width: 20px;
+}
+
+.slide-track {
+    display: flex;
+    width: calc(250*6);
+    justify-content: center;
+    animation: slidescroll 80s linear infinite;
+    
+}
+
+.slide-track:hover {
+    animation-play-state: paused;
+}
+
+@keyframes slidescroll {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(calc(-100%*1));
+    }
+}
+
+.slide {
+    width: 400px;
+    height: 30px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 10px;
+    color: white;
+    overflow: hidden;
+    perspective: 100px;
+    cursor: pointer;
+}
+
+.slide-wrapper::after {
+
+    right: -2px;
+    top: 0;
+    transform: rotateZ(180deg);
+}
+
+
