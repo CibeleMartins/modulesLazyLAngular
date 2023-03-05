@@ -10,6 +10,8 @@ import { AppComponent } from './app.component';
 // import { ValueCoinsComponent } from './components/value-coins/value-coins.component';
 
 
+
+
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 // import { ConvertActionComponent } from './components/convert-action/convert-action.component';
 // import { CryptoInfosComponent } from './components/crypto-infos/crypto-infos.component';
@@ -36,7 +38,7 @@ import { SharedModule } from './modules/shared/shared.module';
     FormsModule,
     MatSnackBarModule,
     BrowserAnimationsModule,
-    HomeCoinsModule,
+    // HomeCoinsModule,
     SharedModule
     
   ],  //assim,é definido características de outros módulos neste módulo
