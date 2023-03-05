@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs'
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { CoinPrice, CoinService } from 'src/app/services/CoinService.service';
 
 @Component({
   selector: 'app-home',
@@ -15,23 +14,13 @@ export class HomeCoinsComponent implements OnInit {
   isSmallorXsmall: boolean = false
   isLoading: boolean = false
 
-  // storeSubscription!: Subscription;
+  storeSubscription!: Subscription;
 
-  coins: CoinPrice[] | undefined;
-
-  constructor(private breakpointService: BreakpointObserver, private coinService: CoinService) {
+  constructor(private breakpointService: BreakpointObserver) {
 
   }
 
   ngOnInit() {
-    // this.breakpointService.observe(Breakpoints.Small).subscribe((result)=> {
-
-    //   this.flexDirection = ''
-    //   if(result.matches){
-    //     this.flexDirection = 'column'
-    //   }
-    // })
-
     this.breakpointService.observe([Breakpoints.Small, Breakpoints.XSmall, Breakpoints.Medium, Breakpoints.Large]).subscribe((result) => {
 
       this.flexDirectionColumn = false;
@@ -59,12 +48,7 @@ export class HomeCoinsComponent implements OnInit {
         this.isLargeOrMedium = true
       }
     })
-
-      this.coinService.getCurrencyQuote().subscribe({
-        next: (data) =>  {this.coins = data},
-        error: (e) => console.error(e),
-        complete: () => console.info('Requisição feita com sucesso!') 
-      })
+    
   }
 
 }

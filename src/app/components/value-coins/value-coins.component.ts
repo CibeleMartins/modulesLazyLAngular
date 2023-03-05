@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { CoinService } from 'src/app/services/CoinService.service';
+import { CoinPrice, CoinService } from 'src/app/services/CoinService.service';
 
 @Component({
   selector: 'app-value-coins',
@@ -7,20 +7,18 @@ import { CoinService } from 'src/app/services/CoinService.service';
   styleUrls: ['./value-coins.component.scss']
 })
 export class ValueCoinsComponent implements OnInit {
-
-  // coins: CoinPrice[] | undefined;
- @Input() coinHighPrice!: string;
- @Input() coinLowPrice!: string;
- @Input() coinCode!: string;
+  
+  @Input() showInfoOfCryptos!: boolean;
+  coins: CoinPrice[] | undefined;
 
   constructor(private coinService: CoinService) {}
 
   ngOnInit() {
-  //   this.coinService.getCurrencyQuote().subscribe({
-  //     next: (data) =>  {this.coins = data},
-  //     error: (e) => console.error(e),
-  //     complete: () => console.info('Requisição feita com sucesso!') 
-  // })}
-  }
+    this.coinService.getCurrencyQuote().subscribe({
+      next: (data) =>  {this.coins = data},
+      error: (e) => console.error(e),
+      complete: () => console.info('Requisição feita com sucesso!') 
+  })}
+
 
 }

@@ -82,35 +82,3 @@
 
 }
 
-// infos values coins
-
-.coin {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  justify-content: space-around;
-  align-items: center;
-} 
-
-.code {
-  color: white;
-  display: flex;
-  letter-spacing: 2px;
-  align-items: center;
-  width: 100px;
-  padding-left: 1em;
-  justify-content: space-evenly;
-}
-
-.price {
-  color: rgba(255, 255, 255, 0.699);
-  display: flex;
-  align-items: center;
-  width: 100px;
-  // max-width: 100%;
-  justify-content: space-around;
-}
-
-.img-coin {
- width: 20px;
-}

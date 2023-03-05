@@ -1,3 +1,17 @@
 <div id="card">
-  <ng-content></ng-content>
+  <div *ngFor="let coin of coins" class="coin">
+    <p class="code">{{ coin.code }}</p>
+
+    <div [ngStyle]="{width: '70vh', display: 'flex', justifyContent: 'space-around'}">
+      <p class="price">
+        {{coin.highPrice}}
+        <img class="img-coin" src="../../../assets/upArrow.png"/>
+      </p>
+      <p class="price" >
+        {{coin.lowPrice}}
+        <img class="img-coin" src="../../../assets/downArrow.png"/>
+      </p>
+    </div>
+ 
+  </div>
 </div>
