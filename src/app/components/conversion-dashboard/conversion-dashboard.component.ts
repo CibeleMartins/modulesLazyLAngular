@@ -16,6 +16,7 @@ export class ConversionDashboardComponent implements OnInit{
   valueCoin!: string;
   result!: string;
   @Input() converterCoinsActionIsHide!: boolean;
+  @Input() closeActionIsHide!: boolean;
   subjectSubscription!: Subscription;
 
   constructor(private coinService: CoinService) { }

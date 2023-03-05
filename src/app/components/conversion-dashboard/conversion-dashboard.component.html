@@ -1,7 +1,7 @@
 <div [ngStyle]="{width: '100%', height: '30vh' , display: 'flex', alignItems: 'center', justifyContent: 'center'}">
   <app-convert-action [isHide]="converterCoinsActionIsHide"></app-convert-action>
   <div id="converter-coin" *ngIf="displayConverter || converterCoinsActionIsHide">
-    <div id="close-container"><span id="close-action" class="material-symbols-outlined" (click)="closeConverter()"> close</span></div>
+    <div id="close-container" *ngIf="!closeActionIsHide"><span id="close-action" class="material-symbols-outlined" (click)="closeConverter()"> close</span></div>
     <div class="coin-action-control">
       <select name="coin1" id="coin-action" [(ngModel)]="selectedCoinBase">
         <option *ngFor="let coinOption of coinsConversionOption">{{coinOption}}</option>
