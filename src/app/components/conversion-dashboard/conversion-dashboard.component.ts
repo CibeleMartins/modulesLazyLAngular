@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CoinService } from 'src/app/services/CoinService.service';
 import {Subscription } from 'rxjs';
 
@@ -15,7 +15,7 @@ export class ConversionDashboardComponent implements OnInit{
   selectedCoinConversion: string = 'USD'
   valueCoin!: string;
   result!: string;
-
+  @Input() converterCoinsActionIsHide!: boolean;
   subjectSubscription!: Subscription;
 
   constructor(private coinService: CoinService) { }
@@ -29,7 +29,7 @@ export class ConversionDashboardComponent implements OnInit{
 
     this.subjectSubscription = this.coinService.displayDashboardConverter.subscribe((data)=> {this.displayConverter = data})
 
-    this.coinService.displayDashboardConverter.next(this.displayConverter)
+    // this.coinService.displayDashboardConverter.next(this.displayConverter)
   }
 
   closeConverter() {

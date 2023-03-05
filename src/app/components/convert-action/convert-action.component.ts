@@ -11,11 +11,16 @@ export class ConvertActionComponent {
 
   conversorIsShowing!: boolean;
   @Input() navigateToCoinsDashboardAction!: boolean;
+  @Input() isHide!: boolean;
 
   constructor(private coinService: CoinService, private router: Router) { }
 
   ngOnInit() {
     this.coinService.displayDashboardConverter.subscribe((data) => this.conversorIsShowing = data)
+
+    if(this.isHide) {
+      this.conversorIsShowing = true
+    }
   }
 
   showConverter() {

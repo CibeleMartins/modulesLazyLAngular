@@ -1,9 +1,6 @@
 <div [ngStyle]="{width: '100%', height: '30vh' , display: 'flex', alignItems: 'center', justifyContent: 'center'}">
-  <!-- <button id="show-converter-action" *ngIf="!displayConverter" (click)="showConverter()">
-    <span class="material-symbols-outlined"> currency_exchange </span>
-</button> -->
-  <app-convert-action></app-convert-action>
-  <div id="converter-coin" *ngIf="displayConverter">
+  <app-convert-action [isHide]="converterCoinsActionIsHide"></app-convert-action>
+  <div id="converter-coin" *ngIf="displayConverter || converterCoinsActionIsHide">
     <div id="close-container"><span id="close-action" class="material-symbols-outlined" (click)="closeConverter()"> close</span></div>
     <div class="coin-action-control">
       <select name="coin1" id="coin-action" [(ngModel)]="selectedCoinBase">

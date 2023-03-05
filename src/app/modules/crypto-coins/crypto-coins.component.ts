@@ -1,5 +1,6 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component } from '@angular/core';
+import { CoinService } from 'src/app/services/CoinService.service';
 
 @Component({
   selector: 'app-crypto-coins',
@@ -12,7 +13,7 @@ export class CryptoCoinsComponent {
   isLargeOrMedium: boolean = false
   isSmallorXsmall: boolean = false
   isLoading: boolean = false
-  constructor(private breakpointService: BreakpointObserver) {
+  constructor(private breakpointService: BreakpointObserver, private coinService: CoinService) {
 
   }
 
@@ -44,7 +45,7 @@ export class CryptoCoinsComponent {
         this.isLargeOrMedium = true
       }
     })
-    
+  
   }
 
 }
