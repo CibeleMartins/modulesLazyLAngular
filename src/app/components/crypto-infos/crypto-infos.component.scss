@@ -1,5 +1,5 @@
 #slide-wrapper {
-    width: 90%;
+    width: 60%;
     height: 7vh;
     background-color: black;
     display: flex;
@@ -65,3 +65,21 @@
 }
 
 
+.entry-dashboard-crytos-action {
+    width: 100px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.589);
+    border-radius: 14px;
+    background-color: #aceb2f;
+    outline: none;
+    border: none;
+    cursor: pointer;
+}
+
+#img-crypto-dashboard-action {
+    width: 40px;
+}

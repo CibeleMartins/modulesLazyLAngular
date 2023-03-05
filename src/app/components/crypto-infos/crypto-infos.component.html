@@ -1,4 +1,4 @@
-<div [ngStyle]="{display: 'flex', justifyContent: 'center'}">
+<div [ngStyle]="{display: 'flex', justifyContent: 'space-evenly', width: '100%', alignItems: 'center'}">
   <div id="slide-wrapper">
     <div class="slide-track">
       <div class="slide" *ngFor="let crypto of cryptoInfos">
@@ -9,5 +9,9 @@
       </div>
     </div>
   </div>
+  <button class="entry-dashboard-crytos-action">
+    <img id="img-crypto-dashboard-action" src="../../../assets/cryptoConvertActionIcon.png">
+  </button>
 </div>
+
 
