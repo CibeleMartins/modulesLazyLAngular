@@ -1,5 +1,5 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CryptoCoinService } from 'src/app/services/CryptoCoin.service';
 import { Router } from '@angular/router';
 
@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 export class CryptoInfosComponent {
 
   cryptoInfos!: any;
+  @Input() isHide!: boolean;
 
   coinsNotSymbol = [
     'bnbbrl',

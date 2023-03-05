@@ -1,4 +1,12 @@
-<div [ngStyle]="{display: 'flex', justifyContent: 'space-evenly', width: '100%', alignItems: 'center'}">
+<div
+  *ngIf="!isHide; else navigateToDashboardCoinsAction"
+  [ngStyle]="{
+    display: 'flex',
+    justifyContent: 'space-evenly',
+    width: '100%',
+    alignItems: 'center'
+  }"
+>
   <div id="slide-wrapper">
     <div class="slide-track">
       <div class="slide" *ngFor="let crypto of cryptoInfos">
@@ -9,9 +17,26 @@
       </div>
     </div>
   </div>
-  <button class="entry-dashboard-crytos-action" (click)="navigateToDashboardCryptos()">
-    <img id="img-crypto-dashboard-action" src="../../../assets/cryptoConvertActionIcon.png">
+  <button
+    class="entry-dashboard-crytos-action"
+    (click)="navigateToDashboardCryptos()"
+  >
+    <img
+      id="img-crypto-dashboard-action"
+      src="../../../assets/cryptoConvertActionIcon.png"
+    />
   </button>
 </div>
 
-
+<ng-template #navigateToDashboardCoinsAction>
+  <div
+    [ngStyle]="{
+      display: 'flex',
+      justifyContent: 'space-evenly',
+      width: '100%',
+      alignItems: 'center'
+    }"
+  >
+    <app-convert-action></app-convert-action>
+  </div>
+</ng-template>
