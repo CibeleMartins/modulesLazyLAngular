@@ -25,8 +25,8 @@ import { SharedModule } from '../shared/shared.module';
         // aqui poderiam ser declarados os componentes utilizados somente neste módulo
     ],
     imports: [
-        CommonModule,
-        FormsModule,
+        // CommonModule,
+        // FormsModule,
         HomeCoinsRoutingModule, //o módulo de rotas de rotas de home-coins
         SharedModule, // o módulo que compartilha componentes e recursos que são usados em HomeCoinsModule
 
