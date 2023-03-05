@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
 import { CoinService } from 'src/app/services/CoinService.service';
 
 @Component({
@@ -8,15 +9,20 @@ import { CoinService } from 'src/app/services/CoinService.service';
 })
 export class ConvertActionComponent {
 
-  conversorIsShowing!:boolean;
-  
-  constructor(private coinService: CoinService){}
+  conversorIsShowing!: boolean;
+  @Input() navigateToCoinsDashboardAction!: boolean;
+
+  constructor(private coinService: CoinService, private router: Router) { }
 
   ngOnInit() {
-    this.coinService.displayDashboardConverter.subscribe((data)=> this.conversorIsShowing = data)
+    this.coinService.displayDashboardConverter.subscribe((data) => this.conversorIsShowing = data)
   }
 
   showConverter() {
     this.coinService.displayDashboardConverter.next(true)
+
+    if(this.navigateToCoinsDashboardAction) {
+      this.router.navigate(['home'])
+    }
   }
 }
