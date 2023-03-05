@@ -22,3 +22,6 @@
 
 
 ## Quando e como podem ser utilizados?
+
+
+## Observações

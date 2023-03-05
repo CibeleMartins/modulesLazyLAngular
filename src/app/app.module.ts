@@ -5,17 +5,18 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ConversionDashboardComponent } from './components/conversion-dashboard/conversion-dashboard.component';
-import { GraphicComponent } from './components/graphic/graphic.component';
-import { ValueCoinsComponent } from './components/value-coins/value-coins.component';
+// import { ConversionDashboardComponent } from './components/conversion-dashboard/conversion-dashboard.component';
+// import { GraphicComponent } from './components/graphic/graphic.component';
+// import { ValueCoinsComponent } from './components/value-coins/value-coins.component';
 
 
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { ConvertActionComponent } from './components/convert-action/convert-action.component';
-import { CryptoInfosComponent } from './components/crypto-infos/crypto-infos.component';
-import { SpinnerComponent } from './components/spinner/spinner.component';
+// import { ConvertActionComponent } from './components/convert-action/convert-action.component';
+// import { CryptoInfosComponent } from './components/crypto-infos/crypto-infos.component';
+// import { SpinnerComponent } from './components/spinner/spinner.component';
 import { HomeCoinsModule } from './modules/home-coins/home-coins.module';
 import { LoadingInterceptor } from './services/loading.interceptor';
+import { SharedModule } from './modules/shared/shared.module';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import { LoadingInterceptor } from './services/loading.interceptor';
     FormsModule,
     MatSnackBarModule,
     BrowserAnimationsModule,
-    HomeCoinsModule
+    HomeCoinsModule,
+    SharedModule
     
   ],  //assim,é definido características de outros módulos neste módulo
   providers: [ {
