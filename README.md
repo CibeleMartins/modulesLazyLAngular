@@ -11,7 +11,7 @@ Além disso, não é possível utilizar algum recurso ou bloco de construção s
 
 ## Quando e como podem ser utilizados?
 
-Dividir a aplicação em módulos é um pré-requisito para que posteriormente, seja possível utilizar alguns recursos de otimização. Mas antes disso, os módulos tornam uma aplicação mais organizada e fácil de encontrar ou fazer manutenção em algum componente/funcionalidade, isso pode ser muito útil em grandes aplicações.
+Dividir a aplicação em módulos é um pré-requisito para que posteriormente, seja possível utilizar alguns recursos de otimização. Mas antes disso, os módulos tornam uma aplicação mais organizada e fácil de encontrar, editar e manter algum componente/funcionalidade, isso pode ser muito útil em grandes aplicações.
 
 Para que fique uma organização mais enxuta e que seja possível utilizar recursos de otimização, também é muito comum a criação de um módulo para rotemaento, onde será definida a configuração de rotas de um módulo X, mas vamos ver isso mais adiante.
 
@@ -53,7 +53,11 @@ O decorator @NgModule importado de @angular/core é o que define um módulo. Den
 
 4 - Bootstrap: É importante para iniciar a aplicação, ele define qual componente está disponível no index.html na raiz do projeto. Geralmente só existe o AppComponent, mas também é possível ter mais componentes, por isso, bootstrap também é um array. Mas isso não é muito comum, porque criaria diferentes arvores de componentes raiz em uma aplicação, e isso torna o trabalho entre componentes mais dificil. Geralmente, existe um único componente raiz e ele é adicionado ao bootstrap dentro do modulo principal da aplicação.
 
+5 - entryComponents: Também existe essa propriedade, que serve para componentes criados de maneira dinâmica.
+
 ## Observações
+
+1 - Os exemplos de código nos quais foram utilizados código de app.module.ts no início do tópico 'Quando e como podem ser utilizados?' representam o estado inicial de AppModule, antes de algumas mudanças serem feitas na aplicação.
 
 
 ## O que é Lazy Loading?
