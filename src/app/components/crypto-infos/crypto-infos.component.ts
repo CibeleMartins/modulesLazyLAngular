@@ -1,6 +1,7 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component } from '@angular/core';
 import { CryptoCoinService } from 'src/app/services/CryptoCoin.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-crypto-infos',
@@ -24,7 +25,7 @@ export class CryptoInfosComponent {
     'linkbrl'
   ]
 
-  constructor(private cryptoService: CryptoCoinService, private breakpointService: BreakpointObserver) {
+  constructor(private cryptoService: CryptoCoinService, private breakpointService: BreakpointObserver, private router: Router) {
 
   }
 
@@ -48,5 +49,7 @@ export class CryptoInfosComponent {
 
   }
 
-
+  navigateToDashboardCryptos() {
+    this.router.navigate(['/crypto-infos'])
+  }
 }

@@ -1,2 +1,16 @@
 
-<h1>Crypto infos</h1>
+<h1>Crypto infos module</h1>
+<app-spinner></app-spinner>
+<div class="{{flexDirectionColumn ? 'main-small' : 'main'}}" >
+
+    <div class="{{isLargeOrMedium ? 'info-coins-container-large-medium' : 'info-coins-container'}}">
+        <app-value-coins></app-value-coins>
+        <app-crypto-infos></app-crypto-infos>
+        <app-graphic></app-graphic>
+    </div>
+    
+    <div class="{{isSmallorXsmall ? 'converter-container-small-xSmall' : 'converter-container'}}">
+        <app-conversion-dashboard></app-conversion-dashboard>
+    </div>
+    
+</div>
