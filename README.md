@@ -142,7 +142,7 @@ import { HomeCoinsComponent } from "./home-coins.component";
 import { RouterModule, Routes } from "@angular/router";
 
 const routes: Routes = [
-    {path: '', component: HomeCoinsComponent}
+    {path: 'home', component: HomeCoinsComponent}
  ];
   
   @NgModule({
@@ -201,6 +201,14 @@ export class HomeCoinsModule {
 
 }
 ```
+
+Na rota do módulo de roteamento principal da aplicação AppRoutingModule deve ficar assim:
+
+```javascript
+    {path: '', pathMatch: 'full', redirectTo: '/home'},
+```
+
+Sem a necessidade de definir a rota para o HomeCoinsComponent, visto que agora, com a utilização do RouterModule e o método .forChild() no módulo de roteamento deste componente, a rota que o renderiza é fundida com a rota raiz da aplicação.
 
 ## Módulos compartilhados
 
