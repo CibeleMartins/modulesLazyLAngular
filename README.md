@@ -132,6 +132,78 @@ Perceba que com isso, os componentes que fazem parte de 'home-coins.module.ts', 
 
 Da mesma forma, se você tiver um componente dentro de outro, estes, devem fazer parte do mesmo módulo.
 
+### Módulo de roteamento
+
+Como dito anteriormente, é muito comum a criação de módulos de roteamento para definir rotas de um módulo específico. Neste projeto por exemplo, o HomeCoinsModule tem um módulo de roteamento. Com isso, ao invés de dispor HomeComponent no arquivo de rotas da aplicação AppRoutingModule, isso é feito no módulo de rotas de HomeCoinsModule:
+
+```javascript
+import { NgModule } from "@angular/core";
+import { HomeCoinsComponent } from "./home-coins.component";
+import { RouterModule, Routes } from "@angular/router";
+
+const routes: Routes = [
+    {path: '', component: HomeCoinsComponent}
+ ];
+  
+  @NgModule({
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule]
+  })
+export class HomeCoinsRoutingModule {
+
+}
+```
+
+Com isso já não é mais necessários exportar os componentes que estão dispostos dentro de HomeCoinsComponent através do seu módulo HomeCoinsModule:
+
+```javascript
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { HomeCoinsRoutingModule } from './home-coins-routing.module';
+import { SharedModule } from '../shared/shared.module';
+
+@NgModule({
+    declarations: [
+        ValueCoinsComponent,
+        CryptoInfosComponent,
+        GraphicComponent,
+        ConversionDashboardComponent,     
+        SpinnerComponent,
+        ConvertActionComponent,
+        HomeCoinsComponent
+        // aqui poderiam ser declarados os componentes utilizados somente neste módulo
+    ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        HomeCoinsRoutingModule, //o módulo de rotas de rotas de home-coins
+        SharedModule, // o módulo que compartilha componentes e recursos que são usados em HomeCoinsModule
+
+    ],
+    exports: 
+    [
+        // ValueCoinsComponent,
+        // CryptoInfosComponent,
+        // GraphicComponent,
+        // ConversionDashboardComponent,
+        // SpinnerComponent,
+        // ConvertActionComponent,
+        // HomeCoinsComponent
+    ]
+
+    // depois de definir o módulo de roteamento de home-coins-module, já não é mais necessário exportar estes componentes,
+    // porque a rota de HomeCoinsComponent que os utiliza está fundindo-se com a rota raiz da aplicação
+    // com a utilização do método forChild(), assim, esses componentes antes exportados não são mais utilizados 
+    // em nenhum outro lugar da aplicação (rota app-routing), sem a necessidade de exportá-los então
+   
+})
+export class HomeCoinsModule {
+
+}
+```
+
+## Módulos compartilhados
+
 Nesta aplicação, foram criados dois módulos, o HomeCoinsModule e o CryptoCoinsModule. Ocorre que ambos, utilizam quase que os mesmos recursos e componentes. Quando há mais de um módulo na aplicação que vão utilizar os mesmos recursos e componentes, é possível criar um módulo compartilhado, o qual pode agrupar tudo isso e posteriormente, pode ser importado nos módulos que precisarão de tais recursos e componentes.
 
 Foi criado um módulo compartilhado chamado SharedModule, o qual tem todos os recursos e componentes utilizados em HomeCoinsModule e CryptoCoinsModule:
@@ -181,12 +253,25 @@ export class SharedModule {
 }
 ```
 
+Posteriormente, importamos SharedModule em HomeCoinsModule e CryptoCoinsModule:
 
+```javascript
+```
+## Observações deste tópico
+
+Tem alguns recursos que fazem parte de alguns módulos que são importados módulo principal de uma aplicação (app.module.ts). Como por exemplo, o ngFor, ngIf que são disponibilizados pelo BrowserModule. Ocorre que este BrowserModule deve ser importado apenas uma vez, porque além de trazer os recursos/diretivas nfIf e ngFor, também faz um trabalho geral na aplicação que deve ser executado uma vez. Para que seja possível ter acesso a recursos deste módulo sem precisar importá-lo mais de uma vez, deve ser utilizado CommonModule em outros módulos da aplicação que precisem de tais recursos.
+
+O FormsModule tem uma matriz de declarations dentro dele, com todas as diretrizes e recursos relacionados a formulários. Para que não seja necessário importar cada recurso relacionado a formulários na matriz declarations do app.module.ts, ou até mesmo o FormsModule na matriz de imports de app.module.ts, importamos o FormsModule na matriz imports dos módulos criados na aplicação.
+
+O HttpClientModule é uma exceção, porque ele só fornece serviços, não diretrizes e componentes. Sendo assim, os recursos desse módulo funcionam de maneira ampla mesmo que importado apenas no módulo principal da aplicação 'app.module.ts'. Os serviços funcionam em qualquer outro módulo que não tenha importado ao HttpClientModule.
 
 
 ## Observações
 
-1 - Os exemplos de código nos quais foram utilizados código de app.module.ts no início do tópico 'Quando e como podem ser utilizados?' representam o estado inicial de AppModule, antes de algumas mudanças serem feitas na aplicação.
+1 - Os exemplos de código os quais foram utilizados código de app.module.ts no início do tópico 'Quando e como podem ser utilizados?' representam o estado inicial de AppModule, antes de algumas mudanças serem feitas na aplicação.
+
+
+
 
 
 ## O que é Lazy Loading?

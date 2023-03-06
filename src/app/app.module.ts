@@ -33,7 +33,7 @@ import { SharedModule } from './modules/shared/shared.module';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule,
+    // FormsModule,
     MatSnackBarModule,
     BrowserAnimationsModule,
     // HomeCoinsModule,
