@@ -118,9 +118,7 @@ O módulo correspondente a este componente, o qual agrupa os componentes utiliza
     FormsModule,
     MatSnackBarModule,
     BrowserAnimationsModule,
-    HomeCoinsModule, <---------------------------------------------------
-    SharedModule
-    
+    HomeCoinsModule, <--------------------------------------------------- 
   ],
     ...
 })
