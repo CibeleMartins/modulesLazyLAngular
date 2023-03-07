@@ -15,7 +15,6 @@ Dividir a aplicação em módulos é um pré-requisito para que posteriormente, 
 
 Para que fique uma organização mais enxuta e que seja possível utilizar recursos de otimização, também é muito comum a criação de um módulo para rotemaento, onde será definida a configuração de rotas de um módulo X, mas vamos ver isso mais adiante.
 
-
 Para entendermos como os módulos podem ser utilizados, primeiro vamos analisar o AppModule quando no estado inicial desta aplicação:
 
 ```javascript
@@ -208,6 +207,8 @@ Na rota do módulo de roteamento principal da aplicação AppRoutingModule deve 
 
 Sem a necessidade de definir a rota para o HomeCoinsComponent, visto que agora, com a utilização do RouterModule e o método .forChild() no módulo de roteamento deste componente, a rota que o renderiza é fundida com a rota raiz da aplicação.
 
+Além disso, criar um módulo de roteamento para um módulo da aplicação é parte do pré-requisito para que seja possível aplicar um dos recursos que podem otimizar a aplicação.
+
 ## Módulos compartilhados
 
 Nesta aplicação, foram criados dois módulos, o HomeCoinsModule e o CryptoCoinsModule. Ocorre que ambos, utilizam quase que os mesmos recursos e componentes. Quando há mais de um módulo na aplicação que vão utilizar os mesmos recursos e componentes, é possível criar um módulo compartilhado, o qual pode agrupar tudo isso e posteriormente, pode ser importado nos módulos que precisarão de tais recursos e componentes.
@@ -259,10 +260,77 @@ export class SharedModule {
 }
 ```
 
-Posteriormente, importamos SharedModule em HomeCoinsModule e CryptoCoinsModule:
+A ideia é delcarar e importar neste módulo qualquer coisa que pode ser utilizada por outros módulos, mas como cada módulo funciona de maneira autônoma, para disponibilizar essas coisas em outros módulos, também é preciso exportá-las Posteriormente, importamos SharedModule em HomeCoinsModule e CryptoCoinsModule:
 
 ```javascript
+import { NgModule } from '@angular/core';
+
+import { HomeCoinsComponent } from './home-coins.component';
+// import { ValueCoinsComponent } from 'src/app/components/value-coins/value-coins.component';
+// import { CryptoInfosComponent } from 'src/app/components/crypto-infos/crypto-infos.component';
+// import { GraphicComponent } from 'src/app/components/graphic/graphic.component';
+// import { ConversionDashboardComponent } from 'src/app/components/conversion-dashboard/conversion-dashboard.component';
+// import { SpinnerComponent } from 'src/app/components/spinner/spinner.component';
+// import { ConvertActionComponent } from 'src/app/components/convert-action/convert-action.component';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { HomeCoinsRoutingModule } from './home-coins-routing.module';
+import { SharedModule } from '../shared/shared.module';
+
+@NgModule({
+    declarations: [
+        // ValueCoinsComponent,
+        // CryptoInfosComponent,
+        // GraphicComponent,
+        // ConversionDashboardComponent,      {componentes que antes eram utilizados apenas neste módulo e 
+                                              //passaram a fazer parte do módulo compartilhado}
+        // SpinnerComponent,
+        // ConvertActionComponent,
+        HomeCoinsComponent
+        // aqui poderiam ser declarados os componentes utilizados somente neste módulo
+    ],
+    imports: [
+        // CommonModule,                
+        // FormsModule,
+        HomeCoinsRoutingModule, //o módulo de rotas de rotas de home-coins
+        SharedModule, // o módulo que compartilha componentes e recursos que são usados em HomeCoinsModule
+
+    ],
+    ...
+   
+})
+export class HomeCoinsModule {
+
+}
 ```
+
+```javascript
+import { NgModule } from "@angular/core";
+import { CryptoCoinsComponent } from "./crypto-coins.component";
+import { SharedModule } from "../shared/shared.module";
+import { CryptoCoinsRoutingModule } from "./crypto-coins-routing.module";
+
+@NgModule({
+    declarations: [
+        CryptoCoinsComponent
+    ],
+    imports: [
+        SharedModule,
+        CryptoCoinsRoutingModule
+    ],
+})
+export class CryptoCoinsModule {
+
+}
+```
+Dessa maneira, as características que estiveram presentes em mais de um módulo, funcionam de maneira compartilhada, além de ajudar a evitar a repetição de código e ter módulos mais enxutos.
+
+## Módulo Core
+
+Nessa aplicação ainda não foi implementado um módulo core, mas além dos módulos e dos módulos compartilhados, existe este terceiro 'tipo' de módulo. Todos esses módulos são criados da mesma forma, com o decorator @NgModule. O que os difere, é o que colocamos lá e como os usamos.
+
+O CoreModule, pode ser usado, por exemplo, para mover e agrupar serviços que antes, foram importados no array providers de AppModule. Se os serviços foram implementados ​​com @Injetable({providedIn: 'root'}) um CoreModule apenas para os serviços não seria necessário, mas caso contrário, sim. No caso do uso de Interceptors por exemplo, também poderiam ser movidos para o array providers de um CoreModule deixando o AppModule mais clean, o que centralizaria os recursos essenciais da aplicação em um único módulo.
+
 ## Observações deste tópico
 
 Tem alguns recursos que fazem parte de alguns módulos que são importados módulo principal de uma aplicação (app.module.ts). Como por exemplo, o ngFor, ngIf que são disponibilizados pelo BrowserModule. Ocorre que este BrowserModule deve ser importado apenas uma vez, porque além de trazer os recursos/diretivas nfIf e ngFor, também faz um trabalho geral na aplicação que deve ser executado uma vez. Para que seja possível ter acesso a recursos deste módulo sem precisar importá-lo mais de uma vez, deve ser utilizado CommonModule em outros módulos da aplicação que precisem de tais recursos.
@@ -271,19 +339,37 @@ O FormsModule tem uma matriz de declarations dentro dele, com todas as diretrize
 
 O HttpClientModule é uma exceção, porque ele só fornece serviços, não diretrizes e componentes. Sendo assim, os recursos desse módulo funcionam de maneira ampla mesmo que importado apenas no módulo principal da aplicação 'app.module.ts'. Os serviços funcionam em qualquer outro módulo que não tenha importado ao HttpClientModule.
 
+É possível importar um módulo em diferentes módulos, tudo bem repetir módulos em diferentes arrays de imports, mas as declarações/declarations (componentes) não podem ser definidas em diferentes módulos. O que pode ser feito, é exportar o componente dentro do módulo dele, e então, importe o módulo dele no módulo que precisa desse componente, ou use um módulo compartilhado que tenha esse componente e o disponibilize em diferentes módulos.
 
-## Observações
+# Conclusão Módulos
 
-1 - Os exemplos de código os quais foram utilizados código de app.module.ts no início do tópico 'Quando e como podem ser utilizados?' representam o estado inicial de AppModule, antes de algumas mudanças serem feitas na aplicação.
+A separação de áreas e recursos de uma aplicação em múltiplos módulos pode tornar a aplicação mais organizada e os códigos mais enxutos e centralizados, o que também torna a manutenção mais fácil.
 
+No entanto, esse tipo de prática é quase um pré-requisito para aplicar um recurso muito importante que pode otimizar uma aplicação.
 
-
+Esse recurso é muito utilizado em aplicações maiores, mas a nível de exemplificação foi aplicado na aplicação desta documentação, segue no próximo tópico.
 
 
 ## O que é Lazy Loading?
 
+É um recurso que utiliza o carregamento lento para ajudar a carregar apenas a seção/módulo necessário, e atrasa o restante, até que seja necessário para o usuário.
+
+Imagine que você tem duas rotas em sua aplicação e em cada uma delas é carregado um  módulo, quando uma delas é visitada o módulo correspondente é carregado. Quando não utilizamos módulos, sempre que visitamos qualquer página, carregamos tudo.
+
+O que faz mais sentido e é feito com Lazy Loading, é carregar o código que pertence a uma determinada área da aplicação, somente quando esta área for acessada.
 
 ## Quando e como pode ser utilizado?
+
+Se tratando de aplicações maiores isso pode ajudar muito no desempenho, porque inicialmente é baixado um pacote de código menor e de acordo com a demanda, são 'baixados/disponibilizados' mais módulos/código. Com isso, o tempo de inicialização da aplicação é muito menor.
+
+Mas é claro que, o Lazy Loading faz muito mais sentido se aplicado em módulos que representam áreas da aplicação nas quais o usuário acessa com menor frequência, pois evitaria o carregamento desses módulos sem necessidade, sem o usuário precisar deles.
+
+Um ponto muito importante que deve ser levado em consideração é que se você tem um módulo que representa uma área da aplicação na qual o usuário acessa com mais frequência, e neste, aplicar o Lazy Loading, isso pode implicar em uma certa desvantagem e pode não valer a pena.
+
+O Lazy Loading faz um 'download extra' de pacote de código, o que mais tarde pode causar uma pequena lentidão na sua aplicação se tratando de áreas que o usuário pode acessar com mais frequência, pois esse código precisa ser baixado após o usuário acessar a rota, ele não é baixado com o carregamento de qualquer outra rota da aplicação, isso é de certa forma 'adiado' com a utilização de carregamento lento. Quanto maior o módulo e mais lenta a conexão com a internet mais longo será o atraso do para fazer download de um pacote.
+
+Para contornar isso existem mais estratégias que podem ser aplciadas na rota raiz da aplicação para otimizar ainda mais o carregamento dos módulos, mas vamos ver isso mais adiante.
+
 
 
 ## Observações
