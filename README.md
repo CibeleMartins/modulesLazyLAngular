@@ -80,7 +80,7 @@ Da mesma forma, foram criados alguns outros módulos nesta aplicação:
     SpinnerComponent,
     ConvertActionComponent,
     HomeCoinsComponent
-  ] //assim, qualquer módulo que importe o módulo HomeCoinsModule pod utilizar estes componentes  
+  ] // Assim, qualquer módulo que importe o módulo HomeCoinsModule pod utilizar estes componentes  
 })
 export class HomeCoinsModule {}
 ```
@@ -191,8 +191,8 @@ import { ConvertActionComponent } from 'src/app/components/convert-action/conver
   imports: [
     CommonModule,
     FormsModule,
-    HomeCoinsRoutingModule, //O módulo de rotas de rotas de HomeCoinsModule
-    SharedModule, //O módulo que compartilha componentes e recursos que são usados em HomeCoinsModule
+    HomeCoinsRoutingModule, // O módulo de rotas de rotas de HomeCoinsModule
+    SharedModule, // O módulo que compartilha componentes e recursos que são usados em HomeCoinsModule
   ],
   exports:[
     // ValueCoinsComponent,
@@ -471,7 +471,6 @@ Para contornar isso existem mais estratégias que podem ser aplicadas na rota ra
 })
 export class AppRoutingModule { }
 ```
-
 Dessa maneira, o roteador AppRoutingModule é configurado com uma estratégia de pré-carregamento. Pré-carregar módulos que utilizam o Lazy Loading, é quase como fazer um pré-carregamento do Lazy Loading para evitar esse atraso em áreas da aplicação que o usuário acessa com mais frequência e que está sendo utilizado o 'carregamento lento'.
 
 Quando o usuário solicita o carregamento de um modulo acessando uma rota, este, já foi pré-carregado. A vantagem é que o download de pacote inicial da aplicação ainda é pequeno, fazendo com que o carregamento inicial seja rápido, mas quando o usuário está navegando entre páginas, carregamos previamente alguns pacotes para diminuir o atraso que pode ser gerado pelo download do pacote. Assim tanto o carregamento inicial, como carregamentos subsequentes ficam mais ágeis.
