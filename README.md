@@ -385,19 +385,135 @@ O que faz mais sentido e é feito com Lazy Loading, é carregar o código que pe
 
 ## Quando e como pode ser utilizado?
 
-Se tratando de aplicações maiores isso pode ajudar muito no desempenho, porque inicialmente é baixado um pacote de código menor e de acordo com a demanda, são 'baixados/disponibilizados' mais módulos/código. Com isso, o tempo de inicialização da aplicação é muito menor.
+Se tratando de aplicações maiores isso pode ajudar muito no desempenho, porque inicialmente é baixado um pacote de código menor e de acordo com a demanda, são 'baixados/disponibilizados' mais módulos/código. Com isso, o tempo de inicialização da aplicação diminui.
 
-Mas é claro que, o Lazy Loading faz muito mais sentido se aplicado em módulos que representam áreas da aplicação nas quais o usuário acessa com menor frequência, pois evitaria o carregamento desses módulos sem necessidade, sem o usuário precisar deles.
+Mas é claro que, o Lazy Loading faz muito mais sentido se aplicado em módulos que representam áreas da aplicação nas quais o usuário acessa com menor frequência, pois evitaria o carregamento desses módulos sem necessidade, sem o usuário precisar deles, caso contrário, pode implicar em uma certa desvantagem que veremos mais adiante.
+
+Como dito anteriormente, criar um módulo de roteamento para cada módulo da aplicação é um requisito para implementação do lazy loading, o primeiro passo é ir até o módulo de roteamento do módulo o qual será carregado com lazy loading e deixar o path/caminho da rota pai, vazio: 
+
+```javascript
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
+import { CryptoCoinsComponent } from "./crypto-coins.component";
+
+const routes: Routes = [
+    {path: '', component: CryptoCoinsComponent} <---------------------------
+ ];
+  
+  @NgModule({
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule]
+  })
+export class CryptoCoinsRoutingModule {
+
+}
+```
+
+Após isso, no módulo de roteamento da aplicação deve ser declarada uma nova rota da seguinte maneira:
+
+```javascript
+import { NgModule } from '@angular/core';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+
+
+const routes: Routes = [
+  {path: '', pathMatch: 'full', redirectTo: '/home'},
+  {path: 'home', loadChildren: ()=> import('./modules/home-coins/home-coins.module').then(m => m.HomeCoinsModule)},
+  {path: 'crypto-infos', loadChildren: ()=> import('./modules/crypto-coins/crypto-coins.module').then(m => m.CryptoCoinsModule)}
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules})],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }
+```
+Este exemplo acima é todo o arquivo de rotas do módulo principal da aplicação, mas perceba que:
+
+```javascript
+ {path: 'crypto-infos', loadChildren: ()=> import('./modules/crypto-coins/crypto-coins.module').then(m => m.CryptoCoinsModule)}
+```
+1 - O módulo o qual deseja utilizar lazy loading não recebe a propriedade 'component';
+
+2 - Ele recebe 'loadChildren', que é uma propriedade especial, e quando inserida o Angular entende como uma 
+política que carrega apenas o conteúdo de código/módulo apontado quando o usuário visitar o caminho definido em 'path';
+
+3 - Em versões mais recentes é utilizada uma arrow function e no corpo da função é chamado o import de maneira dinamica e passa o caminho do módulo a ser carregado em seu parâmetro. Essa maneira de importação, conforme a [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import) orienta:
+
+""...uma expressão semelhante a uma função que permite carregar um módulo ECMAScript de forma assíncrona e dinâmica... as importações dinâmicas são avaliadas apenas quando necessário e permitem maior flexibilidade sintática.""
+
+Por isso foi o utilizado o then() para lidar com essa importação, pois se trata de uma tarefa assíncrona.
+
+4 - Em versões mais antigas do Angular, o caminho para o módulo que deve ser carregado pode ter uma sintaxe um pouco diferente dessa:
+
+```javascript
+{path: 'home', loadChildren:'./modules/crypto-coins/crypto-coins.module#CryptoCoinsModule'} 
+```
+
+De ambas as formas, se utilizadas em versões compatíveis do Angular, tudo que existe dentro deste módulo será colocado em um pacote de códigos separado, que será baixado de acordo com a demanda, assim que o usuário visitar essa rota da aplicação.
+
+Mas depois de definir o lazy loading é necessário ir até o módulo principal da aplicação, em AppModule, e fazer a seguinte alteração:
+
+```javascript
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { HomeCoinsModule } from './modules/home-coins/home-coins.module';
+import { LoadingInterceptor } from './services/loading.interceptor';
+import { SharedModule } from './modules/shared/shared.module';
+
+
+@NgModule({
+  declarations: [
+    AppComponent,
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    MatSnackBarModule,
+    BrowserAnimationsModule,
+    // HomeCoinsModule,        <------------- REMOVER A IMPORTAÇÃO DOS MÓDULOS AGORA CARREGADOS COM LAZY LOADING
+    //CryptoCoinsModule        <------------- REMOVER A IMPORTAÇÃO DOS MÓDULOS AGORA CARREGADOS COM LAZY LOADING
+    SharedModule
+    
+  ],
+  providers: [ {
+    provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true
+  }],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+```
+
+Dessa forma você 'desativa' o carregamento padrão e diz ao Angular para carregar de maneira 'lenta' esses módulos da aplicação. Caso não seja feita essa alteração, provavelmente o Angular emitirá um erro, porque não faz sentido utilizar as duas formas de carregamento ao mesmo tempo.
 
 Um ponto muito importante que deve ser levado em consideração é que se você tem um módulo que representa uma área da aplicação na qual o usuário acessa com mais frequência, e neste, aplicar o Lazy Loading, isso pode implicar em uma certa desvantagem e pode não valer a pena.
 
-O Lazy Loading faz um 'download extra' de pacote de código, o que mais tarde pode causar uma pequena lentidão na sua aplicação se tratando de áreas que o usuário pode acessar com mais frequência, pois esse código precisa ser baixado após o usuário acessar a rota, ele não é baixado com o carregamento de qualquer outra rota da aplicação, isso é de certa forma 'adiado' com a utilização de carregamento lento. Quanto maior o módulo e mais lenta a conexão com a internet mais longo será o atraso do para fazer download de um pacote.
+O Lazy Loading faz um 'download extra' de pacote de código, o que mais tarde pode causar uma pequena lentidão na sua aplicação se tratando de áreas que o usuário pode acessar com mais frequência, pois esse código precisa ser baixado após o usuário acessar a rota, ele não é baixado com o carregamento de qualquer outra rota da aplicação, isso é de certa forma 'adiado' com a utilização de carregamento lento. Quanto maior o módulo e mais lenta a conexão com a internet mais longo será o atraso para fazer download de um pacote.
 
-Para contornar isso existem mais estratégias que podem ser aplciadas na rota raiz da aplicação para otimizar ainda mais o carregamento dos módulos, mas vamos ver isso mais adiante.
+Para contornar isso existem mais estratégias que podem ser aplicadas na rota raiz da aplicação para otimizar ainda mais o carregamento dos módulos, como por exemplo:
+
+```javascript
+@NgModule({
+  imports: [RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules})], <----------
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }
+```
+
+Dessa maneira, o roteador AppRoutingModule é configurado com uma estratégia de pré-carregamento. Pré-carregar módulos que utilizam o Lazy Loading, é quase como fazer um pré-carregamento do Lazy Loading para evitar esse atraso em áreas da aplicação que o usuário acessa com mais frequência e que está sendo utilizado o 'carregamento lento'.
+
+Quando o usuário solicita o carregamento de um modulo acessando uma rota, este, já foi pré-carregado. A vantagem é que o download de pacote inicial da aplicação ainda é pequeno, fazendo com que o carregamento inicial seja rápido, mas quando o usuário está navegando entre páginas, carregamos previamente alguns pacotes para diminuir o atraso que pode ser gerado pelo download do pacote. Assim tanto o carregamento inicial, como carregamentos subsequentes ficam mais ágeis.
+
+## Módulos e Serviços
 
 
-
-## Observações
 
 
 ## O que são interceptors?

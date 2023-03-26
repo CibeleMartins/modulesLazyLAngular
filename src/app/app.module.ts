@@ -37,6 +37,7 @@ import { SharedModule } from './modules/shared/shared.module';
     MatSnackBarModule,
     BrowserAnimationsModule,
     // HomeCoinsModule,
+    //CryptoCoinsModule
     SharedModule
     
   ],  //assim,é definido características de outros módulos neste módulo
