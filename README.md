@@ -10,7 +10,6 @@ Todo aplicativo Angular tem pelo menos um módulo, o app.module.ts. Uma aplicaç
 Além disso, não é possível utilizar algum recurso ou bloco de construção sem inclui-lo em um módulo da aplicação. A forma como são incluídos depende de qual característica da aplicação que um 'bloco de construção' representa, se é um componente, um serviço, um outro módulo e assim por diante.
 
 ## Quando e como podem ser utilizados?
-
 Dividir a aplicação em módulos é um pré-requisito para que posteriormente, seja possível utilizar alguns recursos de otimização. Mas antes disso, os módulos tornam uma aplicação mais organizada e fácil de encontrar, editar e manter algum componente/funcionalidade, isso pode ser muito útil em grandes aplicações.
 
 Para que fique uma organização mais enxuta e que seja possível utilizar recursos de otimização, também é muito comum a criação de um módulo de rotemaento, onde pode ser definida a configuração de rotas de um módulo X, mas vamos ver isso mais adiante.
@@ -89,13 +88,11 @@ export class HomeCoinsModule {
 
 }
 ```
-
 Este módulo é responsável pelos 'blocos de construção' de 'home-coins.component.html'. Visto que no estado inicial dessa aplicação 'home-coins.component.html' foi renderizado em uma das rotas da aplicação definida em AppRoutingModule, conforme abaixo:
 
 ```javascript
 {path: '', component: HomeCoinsComponent}
 ```
-
 O módulo correspondente a este componente, o qual agrupa os componentes utilizados dentro dele, deve ser importado em AppModule:
 
 ```javascript
@@ -109,6 +106,7 @@ O módulo correspondente a este componente, o qual agrupa os componentes utiliza
     // CryptoInfosComponent,     
     // SpinnerComponent,
     // ConvertActionComponent,
+    <------- Perceba que com isso, os componentes que fazem parte de 'home-coins.module.ts', não devem mais serem declarados em AppModule, pois estão sendo exportados em 'home-coins.module.ts', de maneira que o AppModule... 
   ],
   imports: [
     BrowserModule,
@@ -117,29 +115,13 @@ O módulo correspondente a este componente, o qual agrupa os componentes utiliza
     FormsModule,
     MatSnackBarModule,
     BrowserAnimationsModule,
-    HomeCoinsModule, <--------------------------------------------------- 
+    HomeCoinsModule, <------- ao importar HomeCoinsModule também pode utilizá-los. Esta é uma regra muito importante, tudo que está disposto no array declarations, não pode estar em mais de um módulo.
   ],
     ...
 })
 export class AppModule { }
 ```
-Tudo em um módulo funciona de maneira autônoma, o que pode ser feito é exportar algo, como fizemos com os componentes em  'home-coins.module.ts' e depois importar esse módulo em outro módulo da mesma maneira que importamos HomeCoinsModule em AppModule. Isso pode ser feito para que diferentes partes de diferentes módulos possam ser utilizados em conjunto.
-
-Perceba que com isso, os componentes que fazem parte de 'home-coins.module.ts', não devem mais serem declarados em AppModule, pois estão sendo exportados em 'home-coins.module.ts', de maneira que o AppModule ao importar HomeCoinsModule também pode utilizá-los. E esta é uma regra muito importante, tudo que está disposto no array declarations, não pode estar em mais de um módulo.
-
 ```javascript
-...
-// AppModule
-declarations: [
-    AppComponent,
-    // ValueCoinsComponent,
-    // GraphicComponent,
-    // ConversionDashboardComponent,
-    // CryptoInfosComponent,     
-    // SpinnerComponent,
-    // ConvertActionComponent,
-],
-...
 // HomeCoinsModule
 declarations: [
     ValueCoinsComponent,
@@ -150,8 +132,19 @@ declarations: [
     ConvertActionComponent,
     HomeCoinsComponent
 ],
+
+exports: [
+  ValueCoinsComponent,
+  CryptoInfosComponent,
+  GraphicComponent,
+  ConversionDashboardComponent,
+  SpinnerComponent,
+  ConvertActionComponent,
+  HomeCoinsComponent
+] //assim, qualquer módulo que importe o módulo HomeCoinsModule poderá utilizar estes componentes
 ...
 ```
+Tudo em um módulo funciona de maneira autônoma, o que pode ser feito é exportar algo, como fizemos com os componentes em 'home-coins.module.ts' e depois importar esse módulo em outro módulo da mesma maneira que importamos HomeCoinsModule em AppModule. Isso pode ser feito para que diferentes partes de diferentes módulos possam ser utilizados em conjunto.
 
 Da mesma forma, se você tiver um componente dentro de outro, estes, devem fazer parte do mesmo módulo.
 
@@ -510,12 +503,9 @@ export class AppRoutingModule { }
 Dessa maneira, o roteador AppRoutingModule é configurado com uma estratégia de pré-carregamento. Pré-carregar módulos que utilizam o Lazy Loading, é quase como fazer um pré-carregamento do Lazy Loading para evitar esse atraso em áreas da aplicação que o usuário acessa com mais frequência e que está sendo utilizado o 'carregamento lento'.
 
 Quando o usuário solicita o carregamento de um modulo acessando uma rota, este, já foi pré-carregado. A vantagem é que o download de pacote inicial da aplicação ainda é pequeno, fazendo com que o carregamento inicial seja rápido, mas quando o usuário está navegando entre páginas, carregamos previamente alguns pacotes para diminuir o atraso que pode ser gerado pelo download do pacote. Assim tanto o carregamento inicial, como carregamentos subsequentes ficam mais ágeis.
-
-## Módulos e Serviços
-
 ## Observações
 
-É possível definir suas prórpia 'regras' de pré-carregamento de módulos.
+É possível definir suas prórpias 'regras' de pré-carregamento de módulos.
 
 
 ## O que são interceptors?
