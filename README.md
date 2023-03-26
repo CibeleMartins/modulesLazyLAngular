@@ -59,34 +59,30 @@ Da mesma forma, foram criados alguns outros módulos nesta aplicação:
 
 ```javascript
 @NgModule({
-    declarations: [
-        ValueCoinsComponent,
-        CryptoInfosComponent,
-        GraphicComponent,
-        ConversionDashboardComponent,     
-        SpinnerComponent,
-        ConvertActionComponent,
-        HomeCoinsComponent
-        // aqui podem ser declarados os componentes utilizados somente neste módulo
-    ],
-    imports: [
-        CommonModule,
-        FormsModule, // módulos que fornecem alguns recursos que são utilizados por componentes deste módulo
-    ],
-    exports: 
-    [
-        ValueCoinsComponent,
-        CryptoInfosComponent,
-        GraphicComponent,
-        ConversionDashboardComponent,
-        SpinnerComponent,
-        ConvertActionComponent,
-        HomeCoinsComponent
-    ] //assim, qualquer módulo que importe o módulo HomeCoinsModule pod utilizar estes componentes  
+  declarations: [
+    ValueCoinsComponent,
+    CryptoInfosComponent,
+    GraphicComponent,
+    ConversionDashboardComponent,     
+    SpinnerComponent,
+    ConvertActionComponent,
+    HomeCoinsComponent
+  ],// Aqui podem ser declarados os componentes utilizados somente neste módulo
+  imports: [
+    CommonModule,
+    FormsModule, 
+  ],// Módulos que fornecem alguns recursos que são utilizados por componentes deste módulo
+  exports: [
+    ValueCoinsComponent,
+    CryptoInfosComponent,
+    GraphicComponent,
+    ConversionDashboardComponent,
+    SpinnerComponent,
+    ConvertActionComponent,
+    HomeCoinsComponent
+  ] //assim, qualquer módulo que importe o módulo HomeCoinsModule pod utilizar estes componentes  
 })
-export class HomeCoinsModule {
-
-}
+export class HomeCoinsModule {}
 ```
 Este módulo é responsável pelos 'blocos de construção' de 'HomeCoinsModule.coment.html'. Visto que no estado inicial dessa aplicação 'HomeCoinsModule.coment.html' foi renderizado em uma das rotas da aplicação definida em AppRoutingModule, conforme abaixo:
 
@@ -183,38 +179,30 @@ import { SpinnerComponent } from 'src/app/components/spinner/spinner.component';
 import { ConvertActionComponent } from 'src/app/components/convert-action/convert-action.component';
 
 @NgModule({
-    declarations: [
-        ValueCoinsComponent,
-        CryptoInfosComponent,
-        GraphicComponent,
-        ConversionDashboardComponent,     
-        SpinnerComponent,
-        ConvertActionComponent,
-        HomeCoinsComponent
-        // aqui poderiam ser declarados os componentes utilizados somente neste módulo
-    ],
-    imports: [
-        CommonModule,
-        FormsModule,
-        HomeCoinsRoutingModule, //o módulo de rotas de rotas de HomeCoinsModule
-        SharedModule, // o módulo que compartilha componentes e recursos que são usados em HomeCoinsModule
-
-    ],
-    exports: 
-    [
-        // ValueCoinsComponent,
-        // CryptoInfosComponent,
-        // GraphicComponent,
-        // ConversionDashboardComponent,
-        // SpinnerComponent,
-        // ConvertActionComponent,
-        // HomeCoinsComponent
-    ]
-    // depois de definir o módulo de roteamento de HomeCoinsModule, já não é mais necessário exportar estes componentes,
-    // porque a rota de HomeCoinsComponent que os utiliza está fundindo-se com a rota raiz da aplicação
-    // com a utilização do método forChild(), assim, esses componentes antes exportados não são mais utilizados 
-    // em nenhum outro lugar da aplicação (AppRoutingModule), sem a necessidade de exportá-los então
-   
+  declarations:[
+    ValueCoinsComponent,
+    CryptoInfosComponent,
+    GraphicComponent,
+    ConversionDashboardComponent,     
+    SpinnerComponent,
+    ConvertActionComponent,
+    HomeCoinsComponent
+  ], // Aqui poderiam ser declarados os componentes utilizados somente neste módulo
+  imports: [
+    CommonModule,
+    FormsModule,
+    HomeCoinsRoutingModule, //O módulo de rotas de rotas de HomeCoinsModule
+    SharedModule, //O módulo que compartilha componentes e recursos que são usados em HomeCoinsModule
+  ],
+  exports:[
+    // ValueCoinsComponent,
+    // CryptoInfosComponent,
+    // GraphicComponent,
+    // ConversionDashboardComponent,
+    // SpinnerComponent,
+    // ConvertActionComponent,
+    // HomeCoinsComponent
+    ] // Depois de definir o módulo de roteamento de HomeCoinsModule, já não é mais necessário exportar estes componentes, porque a rota de HomeCoinsComponent que os utiliza está fundindo-se com a rota raiz da aplicação com a utilização do método forChild(), assim, esses componentes antes exportados não são mais utilizados em nenhum outro lugar da aplicação (AppRoutingModule), sem a necessidade de exportá-los então
 })
 export class HomeCoinsModule {}
 ```
@@ -223,7 +211,6 @@ Na rota do módulo de roteamento principal da aplicação AppRoutingModule deve 
 ```javascript
 {path: '', pathMatch: 'full', redirectTo: '/home'},
 ```
-
 Sem a necessidade de definir a rota para o HomeCoinsComponent, visto que agora, com a utilização do RouterModule e o método .forChild() no módulo de roteamento deste componente, a rota que o renderiza é fundida com a rota raiz da aplicação.
 
 Além disso, criar um módulo de roteamento para um módulo da aplicação é parte do pré-requisito para que seja possível aplicar um dos recursos de otimização.
@@ -246,28 +233,28 @@ import { SpinnerComponent } from '../../components/spinner/spinner.component';
 import { ValueCoinsComponent } from '../../components/value-coins/value-coins.component';
 
 @NgModule({
-    declarations: [
-        ValueCoinsComponent,
-        CryptoInfosComponent,
-        GraphicComponent,
-        ConversionDashboardComponent,
-        SpinnerComponent,
-        ConvertActionComponent,
-    ],// os componentes que fazem parte deste módulo
-    imports: [
-        CommonModule,
-        FormsModule
-    ], // os módulos que importarem o SharedModule, poderão utilizar os recursos destes módulos importados aqui
-    exports: [
-        ValueCoinsComponent,
-        CryptoInfosComponent,
-        GraphicComponent,
-        ConversionDashboardComponent,
-        SpinnerComponent,
-        ConvertActionComponent,
-        CommonModule,
-        FormsModule
-    ] // dessa maneira, os módulos que importarem o SharedModule, poderão utilizar estes componentes exportados aqui
+  declarations: [
+    ValueCoinsComponent,
+    CryptoInfosComponent,
+    GraphicComponent,
+    ConversionDashboardComponent,
+    SpinnerComponent,
+    ConvertActionComponent,
+  ],// Os componentes que fazem parte deste módulo
+  imports: [
+    CommonModule,
+    FormsModule
+  ], // Os módulos que importarem o SharedModule, poderão utilizar os recursos destes módulos importados aqui
+  exports: [
+    ValueCoinsComponent,
+    CryptoInfosComponent,
+    GraphicComponent,
+    ConversionDashboardComponent,
+    SpinnerComponent,
+    ConvertActionComponent,
+    CommonModule,
+    FormsModule
+  ] // Dessa maneira, os módulos que importarem o SharedModule, poderão utilizar estes componentes exportados aqui
 })
 export class SharedModule {}
 ```
@@ -292,24 +279,22 @@ import { SharedModule } from '../shared/shared.module';
     // ValueCoinsComponent,
     // CryptoInfosComponent,
     // GraphicComponent,
-    // ConversionDashboardComponent, //componentes que antes eram utilizados apenas neste módulo e 
-                                        //passaram a fazer parte do módulo compartilhado
+    // ConversionDashboardComponent, //Componentes que antes eram utilizados apenas neste módulo e passaram a fazer parte do módulo compartilhado
     // SpinnerComponent,
     // ConvertActionComponent,
     HomeCoinsComponent
-    ],// aqui ainda poderiam ser declarados os componentes utilizados somente neste módulo
+    ],// Aqui ainda poderiam ser declarados os componentes utilizados somente neste módulo ainda
   imports: [
     // CommonModule,                
     // FormsModule,
-    HomeCoinsRoutingModule, //o módulo de rotas de rotas de HomeCoinsModule
-    SharedModule, // o módulo que compartilha componentes e recursos que são usados em HomeCoinsModule
+    HomeCoinsRoutingModule, //O módulo de rotas de rotas de HomeCoinsModule
+    SharedModule, //O módulo que compartilha componentes e recursos que são usados em HomeCoinsModule
 
   ],
   ...
 })
 export class HomeCoinsModule {}
 ```
-
 ```javascript
 import { NgModule } from "@angular/core";
 import { CryptoCoinsComponent } from "./crypto-coins.component";
@@ -325,9 +310,7 @@ import { CryptoCoinsRoutingModule } from "./crypto-coins-routing.module";
         CryptoCoinsRoutingModule
     ],
 })
-export class CryptoCoinsModule {
-
-}
+export class CryptoCoinsModule {}
 ```
 Dessa maneira, as características que estiveram presentes em mais de um módulo, funcionam de maneira compartilhada, além de ajudar a evitar a repetição de código e ter módulos mais enxutos.
 
@@ -379,7 +362,7 @@ import { RouterModule, Routes } from "@angular/router";
 import { CryptoCoinsComponent } from "./crypto-coins.component";
 
 const routes: Routes = [
-    {path: '', component: CryptoCoinsComponent} <---------------------------
+    {path: '', component: CryptoCoinsComponent} <--------
  ];
   
   @NgModule({
@@ -460,8 +443,8 @@ import { SharedModule } from './modules/shared/shared.module';
     HttpClientModule,
     MatSnackBarModule,
     BrowserAnimationsModule,
-    // HomeCoinsModule,        <------------- REMOVER A IMPORTAÇÃO DOS MÓDULOS AGORA CARREGADOS COM LAZY LOADING
-    //CryptoCoinsModule        <------------- REMOVER A IMPORTAÇÃO DOS MÓDULOS AGORA CARREGADOS COM LAZY LOADING
+    // HomeCoinsModule,  <------------- REMOVER A IMPORTAÇÃO DOS MÓDULOS AGORA CARREGADOS COM LAZY LOADING
+    //CryptoCoinsModule  <------------- REMOVER A IMPORTAÇÃO DOS MÓDULOS AGORA CARREGADOS COM LAZY LOADING
     SharedModule
     
   ],
