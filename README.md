@@ -82,13 +82,13 @@ Da mesma forma, foram criados alguns outros módulos nesta aplicação:
         SpinnerComponent,
         ConvertActionComponent,
         HomeCoinsComponent
-    ] //assim, qualquer módulo que importe o módulo home-coins poderá utilizar estes componentes  
+    ] //assim, qualquer módulo que importe o módulo HomeCoinsModule pod utilizar estes componentes  
 })
 export class HomeCoinsModule {
 
 }
 ```
-Este módulo é responsável pelos 'blocos de construção' de 'home-coins.component.html'. Visto que no estado inicial dessa aplicação 'home-coins.component.html' foi renderizado em uma das rotas da aplicação definida em AppRoutingModule, conforme abaixo:
+Este módulo é responsável pelos 'blocos de construção' de 'HomeCoinsModule.coment.html'. Visto que no estado inicial dessa aplicação 'HomeCoinsModule.coment.html' foi renderizado em uma das rotas da aplicação definida em AppRoutingModule, conforme abaixo:
 
 ```javascript
 {path: '', component: HomeCoinsComponent}
@@ -96,7 +96,6 @@ Este módulo é responsável pelos 'blocos de construção' de 'home-coins.compo
 O módulo correspondente a este componente, o qual agrupa os componentes utilizados dentro dele, deve ser importado em AppModule:
 
 ```javascript
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -106,7 +105,6 @@ O módulo correspondente a este componente, o qual agrupa os componentes utiliza
     // CryptoInfosComponent,     
     // SpinnerComponent,
     // ConvertActionComponent,
-    <------- Perceba que com isso, os componentes que fazem parte de 'home-coins.module.ts', não devem mais serem declarados em AppModule, pois estão sendo exportados em 'home-coins.module.ts', de maneira que o AppModule... 
   ],
   imports: [
     BrowserModule,
@@ -115,13 +113,29 @@ O módulo correspondente a este componente, o qual agrupa os componentes utiliza
     FormsModule,
     MatSnackBarModule,
     BrowserAnimationsModule,
-    HomeCoinsModule, <------- ao importar HomeCoinsModule também pode utilizá-los. Esta é uma regra muito importante, tudo que está disposto no array declarations, não pode estar em mais de um módulo.
+    HomeCoinsModule, <---------
   ],
     ...
 })
 export class AppModule { }
 ```
+Tudo em um módulo funciona de maneira autônoma, o que pode ser feito é exportar algo, como fizemos com os componentes em  'HomeCoinsModule.mod.ts' e depois importar esse módulo em outro módulo da mesma maneira que importamos HomeCoinsModule em AppModule. Isso pode ser feito para que diferentes partes de diferentes módulos possam ser utilizados em conjunto.
+
+Perceba que com isso, os componentes que fazem parte de 'HomeCoinsModule.mod.ts', não devem mais serem declarados em AppModule, pois estão sendo exportados em 'HomeCoinsModule.mod.ts', de maneira que o AppModule ao importar HomeCoinsModule também pode utilizá-los. E esta é uma regra muito importante, tudo que está disposto no array declarations, não pode estar em mais de um módulo.
+
 ```javascript
+...
+// AppModule
+declarations: [
+    AppComponent,
+    // ValueCoinsComponent,
+    // GraphicComponent,
+    // ConversionDashboardComponent,
+    // CryptoInfosComponent,     
+    // SpinnerComponent,
+    // ConvertActionComponent,
+],
+...
 // HomeCoinsModule
 declarations: [
     ValueCoinsComponent,
@@ -132,20 +146,8 @@ declarations: [
     ConvertActionComponent,
     HomeCoinsComponent
 ],
-
-exports: [
-  ValueCoinsComponent,
-  CryptoInfosComponent,
-  GraphicComponent,
-  ConversionDashboardComponent,
-  SpinnerComponent,
-  ConvertActionComponent,
-  HomeCoinsComponent
-] //assim, qualquer módulo que importe o módulo HomeCoinsModule poderá utilizar estes componentes
 ...
 ```
-Tudo em um módulo funciona de maneira autônoma, o que pode ser feito é exportar algo, como fizemos com os componentes em 'home-coins.module.ts' e depois importar esse módulo em outro módulo da mesma maneira que importamos HomeCoinsModule em AppModule. Isso pode ser feito para que diferentes partes de diferentes módulos possam ser utilizados em conjunto.
-
 Da mesma forma, se você tiver um componente dentro de outro, estes, devem fazer parte do mesmo módulo.
 
 ### Módulo de roteamento
@@ -153,7 +155,7 @@ Como dito anteriormente, é muito comum a criação de módulos de roteamento pa
 
 ```javascript
 import { NgModule } from "@angular/core";
-import { HomeCoinsComponent } from "./home-coins.component";
+import { HomeCoinsComponent } from "./HomeCoinsModule.coment";
 import { RouterModule, Routes } from "@angular/router";
 
 const routes: Routes = [
@@ -164,18 +166,21 @@ const routes: Routes = [
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule]
   })
-export class HomeCoinsRoutingModule {
-
-}
+export class HomeCoinsRoutingModule {}
 ```
-
 Com isso já não é mais necessário exportar os componentes que estão dispostos dentro de HomeCoinsComponent através do seu módulo HomeCoinsModule:
 
 ```javascript
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HomeCoinsRoutingModule } from './home-coins-routing.module';
+import { HomeCoinsRoutingModule } from './HomeCoinsModule-roug.module';
 import { SharedModule } from '../shared/shared.module';
+import { ValueCoinsComponent } from 'src/app/components/value-coins/value-coins.component';
+import { CryptoInfosComponent } from 'src/app/components/crypto-infos/crypto-infos.component';
+import { GraphicComponent } from 'src/app/components/graphic/graphic.component';
+import { ConversionDashboardComponent } from 'src/app/components/conversion-dashboard/conversion-dashboard.component';
+import { SpinnerComponent } from 'src/app/components/spinner/spinner.component';
+import { ConvertActionComponent } from 'src/app/components/convert-action/convert-action.component';
 
 @NgModule({
     declarations: [
@@ -191,7 +196,7 @@ import { SharedModule } from '../shared/shared.module';
     imports: [
         CommonModule,
         FormsModule,
-        HomeCoinsRoutingModule, //o módulo de rotas de rotas de home-coins
+        HomeCoinsRoutingModule, //o módulo de rotas de rotas de HomeCoinsModule
         SharedModule, // o módulo que compartilha componentes e recursos que são usados em HomeCoinsModule
 
     ],
@@ -205,18 +210,14 @@ import { SharedModule } from '../shared/shared.module';
         // ConvertActionComponent,
         // HomeCoinsComponent
     ]
-
-    // depois de definir o módulo de roteamento de home-coins-module, já não é mais necessário exportar estes componentes,
+    // depois de definir o módulo de roteamento de HomeCoinsModule, já não é mais necessário exportar estes componentes,
     // porque a rota de HomeCoinsComponent que os utiliza está fundindo-se com a rota raiz da aplicação
     // com a utilização do método forChild(), assim, esses componentes antes exportados não são mais utilizados 
-    // em nenhum outro lugar da aplicação (rota app-routing), sem a necessidade de exportá-los então
+    // em nenhum outro lugar da aplicação (AppRoutingModule), sem a necessidade de exportá-los então
    
 })
-export class HomeCoinsModule {
-
-}
+export class HomeCoinsModule {}
 ```
-
 Na rota do módulo de roteamento principal da aplicação AppRoutingModule deve ficar assim:
 
 ```javascript
@@ -252,14 +253,11 @@ import { ValueCoinsComponent } from '../../components/value-coins/value-coins.co
         ConversionDashboardComponent,
         SpinnerComponent,
         ConvertActionComponent,
-    ],
-    // os componentes que fazem parte deste módulo
-
+    ],// os componentes que fazem parte deste módulo
     imports: [
         CommonModule,
         FormsModule
-    ],
-    // os módulos que importarem o SharedModule, poderão utilizar os recursos destes módulos importados aqui
+    ], // os módulos que importarem o SharedModule, poderão utilizar os recursos destes módulos importados aqui
     exports: [
         ValueCoinsComponent,
         CryptoInfosComponent,
@@ -269,20 +267,15 @@ import { ValueCoinsComponent } from '../../components/value-coins/value-coins.co
         ConvertActionComponent,
         CommonModule,
         FormsModule
-    ] 
-    // dessa maneira, os módulos que importarem o SharedModule, poderão utilizar estes componentes exportados aqui
+    ] // dessa maneira, os módulos que importarem o SharedModule, poderão utilizar estes componentes exportados aqui
 })
-export class SharedModule {
-
-}
+export class SharedModule {}
 ```
-
 A ideia é delcarar e importar neste módulo qualquer coisa que pode ser utilizada por outros módulos, mas como cada módulo funciona de maneira autônoma, para disponibilizar essas coisas em outros módulos, também é preciso exportá-las. Posteriormente, importamos SharedModule em HomeCoinsModule e CryptoCoinsModule:
 
 ```javascript
 import { NgModule } from '@angular/core';
-
-import { HomeCoinsComponent } from './home-coins.component';
+import { HomeCoinsComponent } from './HomeCoinsModule.coment';
 // import { ValueCoinsComponent } from 'src/app/components/value-coins/value-coins.component';
 // import { CryptoInfosComponent } from 'src/app/components/crypto-infos/crypto-infos.component';
 // import { GraphicComponent } from 'src/app/components/graphic/graphic.component';
@@ -291,34 +284,30 @@ import { HomeCoinsComponent } from './home-coins.component';
 // import { ConvertActionComponent } from 'src/app/components/convert-action/convert-action.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HomeCoinsRoutingModule } from './home-coins-routing.module';
+import { HomeCoinsRoutingModule } from './HomeCoinsModule-roug.module';
 import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
-    declarations: [
-        // ValueCoinsComponent,
-        // CryptoInfosComponent,
-        // GraphicComponent,
-        // ConversionDashboardComponent,      //componentes que antes eram utilizados apenas neste módulo e 
-                                              //passaram a fazer parte do módulo compartilhado
-        // SpinnerComponent,
-        // ConvertActionComponent,
-        HomeCoinsComponent
-        // aqui ainda poderiam ser declarados os componentes utilizados somente neste módulo
-    ],
-    imports: [
-        // CommonModule,                
-        // FormsModule,
-        HomeCoinsRoutingModule, //o módulo de rotas de rotas de home-coins
-        SharedModule, // o módulo que compartilha componentes e recursos que são usados em HomeCoinsModule
+  declarations:[
+    // ValueCoinsComponent,
+    // CryptoInfosComponent,
+    // GraphicComponent,
+    // ConversionDashboardComponent, //componentes que antes eram utilizados apenas neste módulo e 
+                                        //passaram a fazer parte do módulo compartilhado
+    // SpinnerComponent,
+    // ConvertActionComponent,
+    HomeCoinsComponent
+    ],// aqui ainda poderiam ser declarados os componentes utilizados somente neste módulo
+  imports: [
+    // CommonModule,                
+    // FormsModule,
+    HomeCoinsRoutingModule, //o módulo de rotas de rotas de HomeCoinsModule
+    SharedModule, // o módulo que compartilha componentes e recursos que são usados em HomeCoinsModule
 
-    ],
-    ...
-   
+  ],
+  ...
 })
-export class HomeCoinsModule {
-
-}
+export class HomeCoinsModule {}
 ```
 
 ```javascript
@@ -411,7 +400,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {path: '', pathMatch: 'full', redirectTo: '/home'},
-  {path: 'home', loadChildren: ()=> import('./modules/home-coins/home-coins.module').then(m => m.HomeCoinsModule)},
+  {path: 'home', loadChildren: ()=> import('./modules/HomeCoinsModule/HominsModule.mod').then(m => m.HomeCoinsModule)},
   {path: 'crypto-infos', loadChildren: ()=> import('./modules/crypto-coins/crypto-coins.module').then(m => m.CryptoCoinsModule)}
 ];
 
@@ -456,7 +445,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { HomeCoinsModule } from './modules/home-coins/home-coins.module';
+import { HomeCoinsModule } from './modules/HomeCoinsModule/HominsModule.mod';
 import { LoadingInterceptor } from './services/loading.interceptor';
 import { SharedModule } from './modules/shared/shared.module';
 
