@@ -513,7 +513,9 @@ Quando o usuário solicita o carregamento de um modulo acessando uma rota, este,
 
 ## Módulos e Serviços
 
+## Observações
 
+É possível definir suas prórpia 'regras' de pré-carregamento de módulos.
 
 
 ## O que são interceptors?
