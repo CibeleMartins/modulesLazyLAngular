@@ -1,7 +1,7 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Chart, Colors, registerables } from 'chart.js';
 import { CoinService } from 'src/app/services/CoinService.service';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { CryptoCoinService } from 'src/app/services/CryptoCoin.service';
 @Component({
   selector: 'app-graphic',
   templateUrl: './graphic.component.html',
@@ -10,15 +10,15 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 export class GraphicComponent implements OnInit {
   @ViewChild('graphic', { static: true })
   refGraphic!: ElementRef;
-
   graphic: any = []
+  graphicCryptos: any = []
   coinLabels: any[] = [];
   coinBuyValue: any[] = [];
   coinSaleValue: any[] = [];
   coinPercentageVariationValue: any[] = [];
+  @Input() showCryptoInfos!: boolean;
 
-
-  constructor(private coinService: CoinService, private breakpointService: BreakpointObserver) {
+  constructor(private coinService: CoinService, private cryptoCoinService: CryptoCoinService) {
     Chart.register(...registerables, Colors);
     Chart.defaults.color = '#FFFF'
   }
@@ -87,8 +87,75 @@ export class GraphicComponent implements OnInit {
           }
         })
       }
-
     })
+
+    if(this.showCryptoInfos === true) {
+      this.cryptoCoinService.getCryptoInfos().subscribe({
+        next: (data) => {
+          data.map((i) => {
+            this.coinLabels.push(i.name)
+            this.coinBuyValue.push((parseFloat(i.buyValue.replace('R$', ''))))
+            this.coinSaleValue.push((parseFloat(i.saleValue.replace('R$', ''))))
+            this.coinPercentageVariationValue.push((i.priceVariationPercentage))
+  
+          })
+        },
+        error: (e) => console.error(e),
+        complete: () => {
+          console.info('Requisição feita com sucesso!')
+          return this.graphic = new Chart('canvas-cryptos', {
+            type: 'line',
+            data: {
+              labels: this.coinLabels,
+              datasets: [
+                {
+                  label: 'Valor de compra',
+                  data: this.coinBuyValue,
+                  borderColor: '#32F900',
+                  fill: false,
+                  
+                },
+  
+                {
+                  label: 'Valor de venda',
+                  data: this.coinSaleValue,
+                  borderColor: '#6CC6CB',
+                  fill: false,
+                },
+  
+                {
+                  label: 'Porcentagem de variação',
+                  data: this.coinPercentageVariationValue,
+                  borderColor: '#FF4500',
+                  fill: false,
+                }
+              ]
+            },
+            options: {
+              scales: {
+                y: {
+                  ticks: {
+                    display: false,
+                  }
+                }
+              },
+              responsive: true,
+              maintainAspectRatio: false,
+              showLine: true,
+              plugins: {
+                legend: {
+                  display: false,
+  
+                },
+              
+              }
+  
+            }
+          })
+        }
+      })
+    }
+   
   }
 }
 

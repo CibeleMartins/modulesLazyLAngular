@@ -2,9 +2,9 @@
 <div class="{{flexDirectionColumn ? 'main-small' : 'main'}}" >
 
     <div class="{{isLargeOrMedium ? 'info-coins-container-large-medium' : 'info-coins-container'}}">
-        <app-value-coins></app-value-coins>
+   
         <app-crypto-infos [isHide]="true"></app-crypto-infos>
-        <app-graphic></app-graphic>
+        <app-graphic [showCryptoInfos]="true"></app-graphic>
     </div>
     
     <div class="{{isSmallorXsmall ? 'converter-container-small-xSmall' : 'converter-container'}}">

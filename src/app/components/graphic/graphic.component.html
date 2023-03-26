@@ -1,5 +1,6 @@
 <div [ngStyle]="{'display': 'flex', 'align-items': 'center', 'justify-content': 'center'}">
     <div id="graphic-container">
-        <canvas #graphic id="canvas">{{graphic}}</canvas>
+        <canvas *ngIf="!showCryptoInfos" #graphic id="canvas">{{graphic}}</canvas>
+        <canvas *ngIf="showCryptoInfos" #graphic id="canvas-cryptos">{{graphicCryptos}}</canvas>
     </div>
 </div>

@@ -1,6 +1,6 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component } from '@angular/core';
-import { CoinService } from 'src/app/services/CoinService.service';
+import { CryptoCoinService } from 'src/app/services/CryptoCoin.service';
 
 @Component({
   selector: 'app-crypto-coins',
@@ -13,11 +13,10 @@ export class CryptoCoinsComponent {
   isLargeOrMedium: boolean = false
   isSmallorXsmall: boolean = false
   isLoading: boolean = false
-  constructor(private breakpointService: BreakpointObserver, private coinService: CoinService) {
-
-  }
+  constructor(private breakpointService: BreakpointObserver, private cryptoCoinService: CryptoCoinService) {}
 
   ngOnInit() {
+    // this.cryptoCoinService.getExchangeRateLatest()
     this.breakpointService.observe([Breakpoints.Small, Breakpoints.XSmall, Breakpoints.Medium, Breakpoints.Large]).subscribe((result) => {
 
       this.flexDirectionColumn = false;
