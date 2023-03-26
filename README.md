@@ -202,7 +202,7 @@ import { ConvertActionComponent } from 'src/app/components/convert-action/conver
     // SpinnerComponent,
     // ConvertActionComponent,
     // HomeCoinsComponent
-    ] // Depois de definir o módulo de roteamento de HomeCoinsModule, já não é mais necessário exportar estes componentes, porque a rota de HomeCoinsComponent que os utiliza está fundindo-se com a rota raiz da aplicação com a utilização do método forChild(), assim, esses componentes antes exportados não são mais utilizados em nenhum outro lugar da aplicação (AppRoutingModule), sem a necessidade de exportá-los então
+    ] // Depois de definir o módulo de roteamento de HomeCoinsModule, já não é mais necessário exportar estes //componentes, porque a rota de HomeCoinsComponent que os utiliza está fundindo-se com a rota raiz da aplicação com a utilização do método forChild(), assim, esses componentes antes exportados não são mais utilizados em nenhum outro lugar da aplicação (AppRoutingModule), sem a necessidade de exportá-los então
 })
 export class HomeCoinsModule {}
 ```
@@ -478,6 +478,22 @@ Quando o usuário solicita o carregamento de um modulo acessando uma rota, este,
 
 É possível definir suas prórpias 'regras' de pré-carregamento de módulos.
 
+## Módulos e Serviços
+Você deve estar se perguntando porque este tópico não ficou junto com os módulos lá em cima, mas, para entender sobre serviços e módulos, era preciso primeiro entender módulos e lazy loading.
+
+É possível fornecer serviços em AppModule, bem como em outros componentes da aplicação, módulos com carregamento padrão, com lazy loading e também adicionando a configuração de injetá-los na raiz conforme essa documentação sobre [Serviços](https://github.com/CibeleMartins/angularServices) orienta.
+
+Quando fornecems serviços em AppModule ou com a configuração de injetá-los na raiz da aplicação, eles ficam amplamente disponíveis, ou seja, você trabalha com a mesma instância de um serviço em toda aplicação.
+
+Quando um serviço é injetado apenas a nível de um componente, há uma única instância daquele serviço para aquele componente e, para os seus filhos se houverem. Se utilizar o serviço em uma outra árvore de componentes, então será uma outra instância deste serviço p/ esta árvore de componentes. Nesse caso, o injetor usado é o injetor específico do componente, não o raiz.
+
+O interessante é que se você adicionar um serviço em providers de um módulo com carregamento padrão, ele não estará disponível somente naquele módulo, porque se o carregamento é feito de maneira padrão tudo é carregado quando acessamos a primeira rota da aplicação, então tudo é agrupado e disponibilizado em toda aplicação. Sendo assim, adicionar um serviço ao providers de um módulo com carregamento padrão é o mesmo que faze-lo em providers de AppModule ou como injetar o serviço diretamente na raiz, isso porque aqui o responsável por isso também é o injetor raiz do Angular.
+
+Há uma diferença se você adicionar um serviço ao providers de um módulo carregado com lazy loading. Dessa maneira o serviço fica disponível apenas naquele módulo e ele recebe uma única instância desse serviço para utilizar em seus componentes. Nesse caso, um injetor filho é criado pelo Angular.
+
+É claro que se você fornecer uma instância desse serviço em AppModule e em um módulo lazy loading, ele ficará disponível em toda aplicação, mas terá uma outra intância dele no módulo carregado com lazy loading. As vezes isso pode ser necessário, mas em outros casos pode gerar um comportamento estranho.
+
+Portanto, serviços devem sempre utilizar o injetor raiz em AppModule ou utilizando a configuração em @Injectable. Claro que nos casos em que houver necessidade de injetar apenas em uma árvore de componentes isso pode ser feito, mas injetar serviços em módulos com carregamento padrão por exemplo, deve ser evitado, porque é o mesmo que faze-lo em AppModule. Nos casos dos módulos carregados com lazy loading, você pode injetar serviços mas faça isso quando tiver certeza que deseja ter uma intância separada desse serviço lá.
 
 ## O que são interceptors?
 
