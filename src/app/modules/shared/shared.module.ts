@@ -17,14 +17,11 @@ import { ValueCoinsComponent } from '../../components/value-coins/value-coins.co
         ConversionDashboardComponent,
         SpinnerComponent,
         ConvertActionComponent,
-    ],
-    // os componentes que fazem parte deste módulo
-
+    ], // os componentes que fazem parte deste módulo
     imports: [
         CommonModule,
         FormsModule
-    ],
-    // os módulos que importarem o SharedModule, poderão utilizar os recursos destes módulos importados aqui
+    ], // os módulos que importarem o SharedModule, poderão utilizar os recursos destes módulos importados aqui
     exports: [
         ValueCoinsComponent,
         CryptoInfosComponent,
@@ -34,8 +31,7 @@ import { ValueCoinsComponent } from '../../components/value-coins/value-coins.co
         ConvertActionComponent,
         CommonModule,
         FormsModule
-    ] 
-    // dessa maneira, os módulos que importarem o SharedModule, poderão utilizar estes componentes exportados aqui
+    ] // dessa maneira, os módulos que importarem o SharedModule, poderão utilizar estes componentes exportados aqui
 })
 export class SharedModule {
 

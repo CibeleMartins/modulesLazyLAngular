@@ -332,7 +332,7 @@ O HttpClientModule é uma exceção, porque ele só fornece serviços, não dire
 
 A única exceção são os serviços. Estes devem ser configurados apenas uma vez e então, podem ser usados ​​em toda a aplicação.
 
-# Conclusão Módulos
+## Conclusão Módulos
 
 A separação de áreas e recursos de uma aplicação em múltiplos módulos pode tornar a aplicação mais organizada e os códigos mais enxutos e centralizados, o que também torna a manutenção mais fácil.
 
@@ -354,7 +354,7 @@ Se tratando de aplicações maiores isso pode ajudar muito no desempenho, porque
 
 Mas é claro que, o Lazy Loading faz muito mais sentido se aplicado em módulos que representam áreas da aplicação nas quais o usuário acessa com menor frequência, pois evitaria o carregamento desses módulos sem necessidade, sem o usuário precisar deles, caso contrário, pode implicar em uma certa desvantagem que veremos mais adiante.
 
-Como dito anteriormente, criar um módulo de roteamento para cada módulo da aplicação é um requisito para implementação do lazy loading, o primeiro passo é ir até o módulo de roteamento do módulo o qual será carregado com lazy loading e deixar o path/caminho da rota pai, vazio: 
+Como dito anteriormente, criar um módulo de roteamento para cada módulo da aplicação é um requisito para implementação do Lazy Loading, o primeiro passo é ir até o módulo de roteamento do módulo o qual será carregado com Lazy Loading e deixar o path/caminho da rota pai, vazio: 
 
 ```javascript
 import { NgModule } from "@angular/core";
@@ -398,7 +398,7 @@ Este exemplo acima é todo o arquivo de rotas do módulo principal da aplicaçã
 ```javascript
  {path: 'crypto-infos', loadChildren: ()=> import('./modules/crypto-coins/crypto-coins.module').then(m => m.CryptoCoinsModule)}
 ```
-1 - O módulo o qual deseja utilizar lazy loading não recebe a propriedade 'component';
+1 - O módulo o qual deseja utilizar Lazy Loading não recebe a propriedade 'component';
 
 2 - Ele recebe 'loadChildren', que é uma propriedade especial, e quando inserida o Angular entende como uma 
 política que carrega apenas o conteúdo de código/módulo apontado quando o usuário visitar o caminho definido em 'path';
@@ -417,7 +417,7 @@ Por isso foi o utilizado o then() para lidar com essa importação, pois se trat
 
 De ambas as formas, se utilizadas em versões compatíveis do Angular, tudo que existe dentro deste módulo será colocado em um pacote de códigos separado, que será baixado de acordo com a demanda, assim que o usuário visitar essa rota da aplicação.
 
-Mas depois de definir o lazy loading é necessário ir até o módulo principal da aplicação, em AppModule, e fazer a seguinte alteração:
+Mas depois de definir o Lazy Loading é necessário ir até o módulo principal da aplicação, em AppModule, e fazer a seguinte alteração:
 
 ```javascript
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
@@ -475,13 +475,15 @@ Dessa maneira, o roteador AppRoutingModule é configurado com uma estratégia de
 
 Quando o usuário solicita o carregamento de um modulo acessando uma rota, este, já foi pré-carregado. A vantagem é que o download de pacote inicial da aplicação ainda é pequeno, fazendo com que o carregamento inicial seja rápido, mas quando o usuário está navegando entre páginas, carregamos previamente alguns pacotes para diminuir o atraso que pode ser gerado pelo download do pacote. Assim tanto o carregamento inicial, como carregamentos subsequentes ficam mais ágeis.
 ## Observações
-
 É possível definir suas prórpias 'regras' de pré-carregamento de módulos.
 
-## Módulos e Serviços
-Você deve estar se perguntando porque este tópico não ficou junto com os módulos lá em cima, mas, para entender sobre serviços e módulos, era preciso primeiro entender módulos e lazy loading.
+## Conclusão
+Use Lazy Loading em suas aplicações Angular e seja feliz!!
 
-É possível fornecer serviços em AppModule, bem como em outros componentes da aplicação, módulos com carregamento padrão, com lazy loading e também adicionando a configuração de injetá-los na raiz conforme essa documentação sobre [Serviços](https://github.com/CibeleMartins/angularServices) orienta.
+## Módulos e Serviços
+Você deve estar se perguntando porque este tópico não ficou junto com os módulos lá em cima, mas, para entender sobre serviços e módulos, era preciso primeiro entender módulos e Lazy Loading.
+
+É possível fornecer serviços em AppModule, bem como em outros componentes da aplicação, módulos com carregamento padrão, com Lazy Loading e também adicionando a configuração de injetá-los na raiz conforme essa documentação sobre [Serviços](https://github.com/CibeleMartins/angularServices) orienta.
 
 Quando fornecems serviços em AppModule ou com a configuração de injetá-los na raiz da aplicação, eles ficam amplamente disponíveis, ou seja, você trabalha com a mesma instância de um serviço em toda aplicação.
 
@@ -489,11 +491,12 @@ Quando um serviço é injetado apenas a nível de um componente, há uma única 
 
 O interessante é que se você adicionar um serviço em providers de um módulo com carregamento padrão, ele não estará disponível somente naquele módulo, porque se o carregamento é feito de maneira padrão tudo é carregado quando acessamos a primeira rota da aplicação, então tudo é agrupado e disponibilizado em toda aplicação. Sendo assim, adicionar um serviço ao providers de um módulo com carregamento padrão é o mesmo que faze-lo em providers de AppModule ou como injetar o serviço diretamente na raiz, isso porque aqui o responsável por isso também é o injetor raiz do Angular.
 
-Há uma diferença se você adicionar um serviço ao providers de um módulo carregado com lazy loading. Dessa maneira o serviço fica disponível apenas naquele módulo e ele recebe uma única instância desse serviço para utilizar em seus componentes. Nesse caso, um injetor filho é criado pelo Angular.
+Há uma diferença se você adicionar um serviço ao providers de um módulo carregado com Lazy Loading. Dessa maneira o serviço fica disponível apenas naquele módulo e ele recebe uma única instância desse serviço para utilizar em seus componentes. Nesse caso, um injetor filho é criado pelo Angular.
 
-É claro que se você fornecer uma instância desse serviço em AppModule e em um módulo lazy loading, ele ficará disponível em toda aplicação, mas terá uma outra intância dele no módulo carregado com lazy loading. As vezes isso pode ser necessário, mas em outros casos pode gerar um comportamento estranho.
+É claro que se você fornecer uma instância desse serviço em AppModule e em um módulo Lazy Loading, ele ficará disponível em toda aplicação, mas terá uma outra intância dele no módulo carregado com Lazy Loading. As vezes isso pode ser necessário, mas em outros casos pode gerar um comportamento estranho.
 
-Portanto, serviços devem sempre utilizar o injetor raiz em AppModule ou utilizando a configuração em @Injectable. Claro que nos casos em que houver necessidade de injetar apenas em uma árvore de componentes isso pode ser feito, mas injetar serviços em módulos com carregamento padrão por exemplo, deve ser evitado, porque é o mesmo que faze-lo em AppModule. Nos casos dos módulos carregados com lazy loading, você pode injetar serviços mas faça isso quando tiver certeza que deseja ter uma intância separada desse serviço lá.
+## Conclusão Módulos e Serviços
+Portanto, serviços devem sempre utilizar o injetor raiz em AppModule ou utilizar a configuração em @Injectable. Claro que nos casos em que houver necessidade de injetar um serviço apenas em uma árvore de componentes isso pode ser feito, mas injetar serviços em módulos com carregamento padrão por exemplo, deve ser evitado, porque é o mesmo que faze-lo em AppModule. Nos casos dos módulos carregados com Lazy Loading, você pode injetar serviços mas faça isso quando tiver certeza que deseja ter uma intância separada desse serviço lá.
 
 ## O que são interceptors?
 
