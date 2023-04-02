@@ -1,5 +1,4 @@
 <div
-  *ngIf="!isHide; else navigateToDashboardCoinsAction"
   [ngStyle]="{
     display: 'flex',
     justifyContent: 'space-evenly',
@@ -17,8 +16,8 @@
       </div>
     </div>
   </div>
-  <button
-    class="entry-dashboard-crytos-action"
+  <button *ngIf="!navigateToHome; else navigateToDashboardCoinsAction"
+    class="entry-dashboard-cryptos-action"
     (click)="navigateToDashboardCryptos()"
   >
     <img
@@ -33,7 +32,7 @@
     [ngStyle]="{
       display: 'flex',
       justifyContent: 'space-evenly',
-      width: '100%',
+      width: '50%',
       alignItems: 'center'
     }"
   >

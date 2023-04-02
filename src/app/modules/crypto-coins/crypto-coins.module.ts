@@ -11,6 +11,7 @@ import { CryptoCoinsRoutingModule } from "./crypto-coins-routing.module";
         SharedModule,
         CryptoCoinsRoutingModule
     ],
+    providers: [Document]
 })
 export class CryptoCoinsModule {
 

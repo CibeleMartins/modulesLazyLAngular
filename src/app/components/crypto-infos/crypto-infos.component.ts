@@ -1,7 +1,7 @@
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { Component, Input } from '@angular/core';
-import { CryptoCoinService } from 'src/app/services/CryptoCoin.service';
 import { Router } from '@angular/router';
+import { CryptoCoinService } from 'src/app/services/CryptoCoin.service';
 
 @Component({
   selector: 'app-crypto-infos',
@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 export class CryptoInfosComponent {
 
   cryptoInfos!: any;
-  @Input() isHide!: boolean;
+  @Input() navigateToHome!: boolean;
 
   coinsNotSymbol = [
     'bnbbrl',
@@ -46,8 +46,9 @@ export class CryptoInfosComponent {
       })
       this.cryptoInfos = data
       this.cryptoInfos = this.cryptoInfos.filter((i: any)=> !this.coinsNotSymbol.includes((i.name.toLowerCase())))
+      // console.log(this.cryptoInfos)
     })
-
+   
   }
 
   navigateToDashboardCryptos() {

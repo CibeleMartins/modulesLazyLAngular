@@ -1,6 +1,7 @@
 .main {
     height: 100vh;
     width: 100%;
+    flex-direction: column;
     background-repeat: no-repeat;
     background-size: 100%;
     background-color: #262626;
@@ -62,7 +63,7 @@
 
 .info-coins-container-large-medium {
   display: flex;
-  width: 50%;
+  width: 90%;
   height: 100vh;
   flex-direction: column-reverse;
   justify-content: space-around;
@@ -82,3 +83,26 @@
 
 }
 
+#graphic-container-cryptos {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.589);
+  border-radius: 14px;
+  background-color: #232323;
+  animation: slide-down 300ms ease-out forwards;
+  height: 300px;
+  padding: 1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+
+  @keyframes slide-down {
+    from {
+      opacity: 0;
+      transform: translateY(-3rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}

@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
-import{ NgModule }from '@angular/core';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ConversionDashboardComponent } from '../../components/conversion-dashboard/conversion-dashboard.component';
 import { ConvertActionComponent } from '../../components/convert-action/convert-action.component';
-import { CryptoInfosComponent } from '../../components/crypto-infos/crypto-infos.component';
 import { GraphicComponent } from '../../components/graphic/graphic.component';
 import { SpinnerComponent } from '../../components/spinner/spinner.component';
 import { ValueCoinsComponent } from '../../components/value-coins/value-coins.component';
+import { CryptoInfosComponent } from 'src/app/components/crypto-infos/crypto-infos.component';
 
 
 @NgModule({

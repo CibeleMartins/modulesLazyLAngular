@@ -2,12 +2,13 @@
 <div class="{{flexDirectionColumn ? 'main-small' : 'main'}}" >
 
     <div class="{{isLargeOrMedium ? 'info-coins-container-large-medium' : 'info-coins-container'}}">
-   
-        <app-crypto-infos [isHide]="true"></app-crypto-infos>
-        <app-graphic [showCryptoInfos]="true"></app-graphic>
+        <app-crypto-infos [navigateToHome]="true"></app-crypto-infos>
+        <div id="graphic-container-cryptos">
+            <canvas #canvas id="canvas-cryptos">{{graphicCryptos}}</canvas>
+        </div>
     </div>
     
     <div class="{{isSmallorXsmall ? 'converter-container-small-xSmall' : 'converter-container'}}">
-        <app-conversion-dashboard [closeActionIsHide]="true" [converterCoinsActionIsHide]="true"></app-conversion-dashboard>
+       <div></div>
     </div>
 </div>
