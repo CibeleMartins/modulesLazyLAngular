@@ -497,11 +497,3 @@ Há uma diferença se você adicionar um serviço ao providers de um módulo car
 
 ## Conclusão Módulos e Serviços
 Portanto, serviços devem sempre utilizar o injetor raiz em AppModule ou utilizar a configuração em @Injectable. Claro que nos casos em que houver necessidade de injetar um serviço apenas em uma árvore de componentes isso pode ser feito, mas injetar serviços em módulos com carregamento padrão por exemplo, deve ser evitado, porque é o mesmo que faze-lo em AppModule. Nos casos dos módulos carregados com Lazy Loading, você pode injetar serviços mas faça isso quando tiver certeza que deseja ter uma intância separada desse serviço lá.
-
-## O que são interceptors?
-
-
-## Quando e como podem ser utilizados?
-
-
-## Observações
