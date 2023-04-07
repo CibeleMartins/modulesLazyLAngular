@@ -477,7 +477,7 @@ Quando o usuário solicita o carregamento de um modulo acessando uma rota, este,
 ## Observações
 É possível definir suas prórpias 'regras' de pré-carregamento de módulos.
 
-## Conclusão
+## Conclusão Lazy Loading
 Use Lazy Loading em suas aplicações Angular e seja feliz!!
 
 ## Módulos e Serviços
@@ -497,3 +497,135 @@ Há uma diferença se você adicionar um serviço ao providers de um módulo car
 
 ## Conclusão Módulos e Serviços
 Portanto, serviços devem sempre utilizar o injetor raiz em AppModule ou utilizar a configuração em @Injectable. Claro que nos casos em que houver necessidade de injetar um serviço apenas em uma árvore de componentes isso pode ser feito, mas injetar serviços em módulos com carregamento padrão por exemplo, deve ser evitado, porque é o mesmo que faze-lo em AppModule. Nos casos dos módulos carregados com Lazy Loading, você pode injetar serviços mas faça isso quando tiver certeza que deseja ter uma intância separada desse serviço lá.
+
+# O que são Interceptors?
+Em palavras simples, eu diria que é um recurso muito útil do Angular que como o próprio nome indica, nos permite interceptar as requisições feitas na aplicação, ou seja, antes que a requisição termine e um pouco antes da resposta é possível executar algum código e até memso interagir com o objeto da requisição e o seu retorno.
+
+# Como e quando podem ser utilizados?
+Podem ser utilizados em cenários nos quais é necessário fazer requisições em uma aplicação, mas tem algumas coisas que precisam ser enviadas nessas requisições e você não quer repetir isso em todas elas. Ou no caso da aplicação de exemplo, que a cada requisição deve ser exibido um componente de loading.
+
+Para criar um interceptor você deve criar um arquivo '.interceptor.ts'o qual deve contar uma classe e essa classe deve implementar a interface 'HttpInterceptor', que pode ser importada de '@angular/common/http', veja um exemplo: 
+
+```javascript
+import { Injectable } from '@angular/core';
+import { HttpInterceptor } from '@angular/common/http';
+
+
+@Injectable()
+export class LoadingInterceptor implements HttpInterceptor {
+  constructor() {}
+}
+
+```
+
+Essa interface faz com que seja necessário implementar um método de interceptação, o qual recebe dois parâmetros:
+
+```javascript
+import { Injectable } from '@angular/core';
+import {
+  HttpRequest,
+  HttpHandler,
+  HttpEvent,
+  HttpInterceptor
+} from '@angular/common/http';
+import { Observable, finalize } from 'rxjs';
+
+@Injectable()
+export class LoadingInterceptor implements HttpInterceptor {
+
+  constructor(
+  ) {}
+
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+  
+  }
+}
+```
+
+1 - É um objeto de requisição, que lógicamente deve ser tipado com HttpRequest que é um tipo genérico, então entre '<>' você pode dizer o que é esperado para este objeto. No caso do código de exemplo, utilizamos 'any' porque desejamos usar o tipo genérico mesmo.
+
+2 - Esse parametro é do tipo HttpHandler, geralmente chamado de 'next', é uma função que encaminhará o pedido porque o interceptor basicamente executará o código antes que a requisição termine e logo antes que resposta seja recebida. Ou seja, a requisição entra nesse fluxo do interceptor e depois esse parametro next permite que a requisição 'continue sua viagem' após interceptada.
+
+Agora esse método 'intercept()', pode executar um código antes que a requisição termine e um pouco antes da resposta. 
+
+Em seguida, é necessário retornar o resultado da requisição para que ela não fique infinitamente interceptada rsss, e isso pode ser feito com o parâmetro 'next', que tem um método muito importante que permite deixar a requisição continuar e retornar algo quando interceptada. Esse método é o 'handle()' e ele deve receber em seu parâmetro o objeto da requisição, o qual é o primeiro parâmetro do método 'intercept()', veja um exemplo abaixo:
+
+```javascript
+import { Injectable } from '@angular/core';
+import {
+  HttpRequest,
+  HttpHandler,
+  HttpEvent,
+  HttpInterceptor
+} from '@angular/common/http';
+import { Observable, finalize } from 'rxjs';
+import { LoaderService } from './Loader.service';
+
+@Injectable()
+export class LoadingInterceptor implements HttpInterceptor {
+  private totalRequests = 0;
+
+  constructor(
+    private loadingService: LoaderService
+  ) {}
+
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+    
+    this.totalRequests++;
+    this.loadingService.setLoading(true);
+  
+    return next.handle(request).pipe(
+      finalize(() => {
+        this.totalRequests--;
+        if (this.totalRequests == 0) {
+          this.loadingService.setLoading(false);
+        }
+      })
+    );
+  }
+}
+```
+
+Bom, o que ta acontecendo ai é o seguinte: 
+
+1 - Quando uma requisição é feita nessa aplicação ela é interceptada por este interceptor.
+
+2 - Antes que a requisição termine e um pouco antes de sua resposta, a propriedade 'this.totalRequests' é incrementada.
+
+3 - Através do serviço de loading, setamos a propriedade 'loading' como 'true', o que faz com que este componente seja renderizado na tela, veja:
+
+```javascript
+<div *ngIf="this.loader.getLoading()" class="cssload-container">
+    <div class="cssload-speeding-wheel">
+    </div>
+</div>
+```
+
+4 - Dentro do interceptor também pode interagir com o retorno da requisição, o que foi feito nessa aplicação, foi utilizar um pipe e o operador 'finalize()' que conforme a documentação de (RXJS)[https://www.learnrxjs.io/learn-rxjs/operators/utility/finalize] sugere: 'Execute a função de retorno de chamada quando o observável for concluído', ou seja, após o observável da requisição ser concluído, retorna alguma coisa.
+
+5 - Então, descrementamos a propriedade 'this.totalRequests' e quando ela está vazia, sabemos que a reuisição foi concluída.
+
+6 - E finalmente setamos a propriedade que é condição para renderizar o componente de loading para 'false'.
+
+Depois disso é necessário fornecer esse serviço para aplicação, e isso, deve ser feito de um jeito digamos que 'especial'. Ele deve ser declarado em 'array providers' de AppModule, mas com uma sintaxe um pouco diferente:
+
+```javascript
+  providers: [{
+    provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true
+  }],
+```
+Assim, o Angular entende que qualquer classe utilizada com esse identificador 'HTTP_INTERCEPTORS' deve ser tratada como um interceptador, portanto, deve executar o método intercept sempre que houver uma requisição.
+
+A segunda chave desse objeto é 'useClass', aqui é necessário dizer ao Angular qual classe que ele deve utilizar como um interceptador.
+
+Também é possível inserir uma terceira chave, a 'multi'. Essa chave serve para que nos casos em que houver mais de um interceptor na aplicação, o Angular não substitua nenhum por esse declarado.
+
+# Observações
+
+Também é possível interagir com o objeto da requisição, não somente com o retorno assim como foi feito no código de exemplo.
+
+E também é possível ter múltiplos interceptors em uma aplicação Angular, mas a ordem na qual você fornece os interceptors na aplicação é muito importante, porque essa será a ordem na qual eles serão executados, mas a sintaxe de injeção é a mesma.
+
+# Conclusão
+
+Essa documentação está sujeita a atualizações, caso tenha dúvidas ou quiser interagir pode enviar um pull request ai ou me chamar no linkedin (Cibele Martins)[www.linkedin.com/in/cibelemartinssss], bons estudos!!

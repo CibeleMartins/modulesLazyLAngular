@@ -11,14 +11,13 @@ import { Crypto, CryptoCoinService } from 'src/app/services/CryptoCoin.service';
 })
 export class CryptoCoinsComponent {
 
-
   flexDirectionColumn: boolean = false
   isLargeOrMedium: boolean = false
   isSmallorXsmall: boolean = false
   isLoading: boolean = false
   graphicCryptos!: void;
 
-  constructor(private breakpointService: BreakpointObserver, private cryptoCoinService: CryptoCoinService, private coinService: CoinService) {
+  constructor(private breakpointService: BreakpointObserver, private cryptoCoinService: CryptoCoinService) {
     Chart.register(...registerables, Colors);
     Chart.defaults.color = '#FFFF'
 
@@ -61,21 +60,5 @@ export class CryptoCoinsComponent {
         this.isLargeOrMedium = true
       }
     })
-
-
-   
-    
-
   }
-
-
-  // getInformationForTooltip(indexInformationInGraphic: number, tooltipItem: any) {
-  //   let value = tooltipItem.chart.data.datasets.map((i: TooltipModel<"line">, index: number) => index === indexInformationInGraphic ? tooltipItem.chart.data.datasets[indexInformationInGraphic].label  + ': ' + i.data[tooltipItem.dataIndex] : 0 );
-  //   // // let value = this.dataPoints.map((dataPoint, index)=> dataPoint.chart.data.datasets.map(i => i.label + ': ' + i.data[tooltipItem.dataIndex]))
-  //   return "" + value;
-
-  // }
-
-
-
 }

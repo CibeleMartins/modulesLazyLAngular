@@ -22,22 +22,13 @@ import { SharedModule } from './modules/shared/shared.module';
 @NgModule({
   declarations: [
     AppComponent,
-    // ValueCoinsComponent,
-    // GraphicComponent,
-    // ConversionDashboardComponent,
-    // CryptoInfosComponent,
-    // SpinnerComponent,
-    // ConvertActionComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    // FormsModule,
     MatSnackBarModule,
     BrowserAnimationsModule,
-    // HomeCoinsModule,
-    //CryptoCoinsModule
     SharedModule
     
   ],  //assim,é definido características de outros módulos neste módulo

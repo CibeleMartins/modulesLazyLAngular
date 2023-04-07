@@ -97,45 +97,29 @@ export class CryptoCoinService {
                                 label: 'Valor de compra atual',
                                 data: this.arrayTeste.map((i) => this.coinService.formatPricesInBRL(i.market.buy)),
                                 borderColor: '#32F900',
-                                fill: false,
                                 tension: 0.8,
-                                // parsing: {
-                                //   // xAxisKey: 'market.market',
-                                //   yAxisKey: 'market.buy',
-
-                                // }
-
                             },
 
                             {
                                 label: 'Valor de venda atual',
                                 data: this.arrayTeste.map((i) => this.coinService.formatPricesInBRL(i.market.sell)),
-                                borderColor: '#6CC6CB',
-                                backgroundColor: '#6CC6CB',
-                                fill: false,
+                                // borderColor: '#6CC6CB',
+                                // backgroundColor: '#6CC6CB',
                                 tension: 0.8,
-                                // parsing: {
-                                //   // xAxisKey: 'market.market',
-                                //   yAxisKey: 'market.sell',
-
-                                // }
                             },
                             {
                                 label: 'Relação % entre o preço mais alto e o preço mais baixo nas últimas 24 horas',
                                 data: this.arrayTeste.map((i) => parseFloat(i.market.varHighLow).toFixed(2)),
                                 borderColor: '#f0f',
                                 backgroundColor: '#f0f',
-                                fill: false,
                                 tension: 0.8,
-
                             },
 
                             {
                                 label: 'Preço médio nas últimas 24 horas',
                                 data: this.arrayTeste.map((i) => this.coinService.formatPricesInBRL(i.market.avg)),
-                                borderColor: '#808000',
-                                backgroundColor: '#808000',
-                                fill: false,
+                                // borderColor: '#808000',
+                                // backgroundColor: '#808000',
                                 tension: 0.8,
                             },
                             {
@@ -143,59 +127,54 @@ export class CryptoCoinService {
                                 data: this.arrayTeste.map((i) => i.market.timestamp),
                                 borderColor: '#f0f',
                                 backgroundColor: '#f0f',
-                                fill: false,
                                 tension: 0.8,
+
 
                             },
 
                             {
                                 label: 'Volume negociado nas últimas 24h',
                                 data: this.arrayTeste.map((i) => this.coinService.formatPricesInBRL(i.market.vol)),
-                                borderColor: '#6CC6CB',
-                                backgroundColor: '#6CC6CB',
-                                fill: false,
+                                // borderColor: '#6CC6CB',
+                                // backgroundColor: '#6CC6CB',
                                 tension: 0.8,
                             },
                             {
                                 label: 'Menor valor negociado nas últimas 24h',
                                 data: this.arrayTeste.map((i) => this.coinService.formatPricesInBRL(i.market.low)),
-                                borderColor: '#ff0000',
-                                backgroundColor: '#ff0000',
-                                fill: false,
+                                // borderColor: '#ff0000',
+                                // backgroundColor: '#ff0000',
                                 tension: 0.8,
                             },
 
                             {
                                 label: 'Maior valor negociado nas últimas 24h',
                                 data: this.arrayTeste.map((i) => this.coinService.formatPricesInBRL(i.market.high)),
-                                borderColor: '#FFFF00',
-                                backgroundColor: '#FFFF00',
-                                fill: false,
+                                // borderColor: '#FFFF00',
+                                // backgroundColor: '#FFFF00',
                                 tension: 0.8
 
                             },
                             {
                                 label: 'Último valor negociado',
                                 data: this.arrayTeste.map((i) => this.coinService.formatPricesInBRL(i.market.last)),
-                                borderColor: '#32F900',
-                                fill: false,
+                                // borderColor: '#32F900',
                                 tension: 0.8
                             },
                         ],
                     },
                     options: {
-                        // parsing: {
-                        //   yAxisKey: 'market.buy',
-                        // },
                         scales: {
-                            y: {
 
+                            y: {
+                                grid: {
+                                    display: false
+                                },
                                 ticks: {
                                     display: false,
 
                                 }
                             }
-
                         },
                         responsive: true,
                         maintainAspectRatio: false,
@@ -203,7 +182,6 @@ export class CryptoCoinService {
                         plugins: {
                             legend: {
                                 display: false,
-
                             },
                             tooltip: {
                                 enabled: true,
@@ -277,10 +255,5 @@ export class CryptoCoinService {
                 })
             }
         })
-
-
-
     }
-
-
 }
