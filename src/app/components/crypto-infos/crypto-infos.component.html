@@ -3,10 +3,11 @@
     display: 'flex',
     justifyContent: 'space-evenly',
     width: '100%',
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: background ? background : ''
   }"
 >
-  <div id="slide-wrapper">
+  <div id="slide-wrapper" [ngStyle]="{width: width ? width : ''}">
     <div class="slide-track">
       <div class="slide" *ngFor="let crypto of cryptoInfos">
         <img class="crypto-icon" src="{{ crypto.symbol }}" />
@@ -31,8 +32,7 @@
   <div
     [ngStyle]="{
       display: 'flex',
-      justifyContent: 'space-evenly',
-      width: '50%',
+      justifyContent: 'space-between',
       alignItems: 'center'
     }"
   >

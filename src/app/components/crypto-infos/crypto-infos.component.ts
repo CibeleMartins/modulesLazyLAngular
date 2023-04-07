@@ -12,7 +12,8 @@ export class CryptoInfosComponent {
 
   cryptoInfos!: any;
   @Input() navigateToHome!: boolean;
-
+  @Input() width!:string;
+  @Input() background!:string;
   coinsNotSymbol = [
     'bnbbrl',
     'ltcbrl',

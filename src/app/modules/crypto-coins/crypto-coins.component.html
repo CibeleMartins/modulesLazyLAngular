@@ -1,12 +1,9 @@
 <app-spinner></app-spinner>
+<app-crypto-infos width="100%" background="black" [navigateToHome]="true"></app-crypto-infos>
 <div class="main" >
     <div class="info-coins-container">
-        <div class="crypto-infos-container">
-            <app-crypto-infos [navigateToHome]="true"></app-crypto-infos>
-        </div>
         <div id="graphic-container-cryptos">
             <canvas #canvas id="canvas-cryptos">{{graphicCryptos}}</canvas>
         </div>
     </div>
-    
 </div>
