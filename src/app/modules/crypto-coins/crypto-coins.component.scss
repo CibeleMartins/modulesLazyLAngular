@@ -8,7 +8,7 @@
     background-attachment: fixed;
     display:flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: center;
     animation: colors 15s ease infinite;
     
     @keyframes colors {
@@ -26,62 +26,15 @@
         }
       }
 }
-.main-small {
-  height: 100vh;
-  width: 100%;
-  flex-direction: column;
-  background-color: #232323;
-  padding-top: 2em;
-  display:flex;
-  align-items: center;
-  justify-content: space-around;
-  animation: colors 15s ease infinite;
-  
-  @keyframes colors {
-
-      8% {
-        background-position: 0% 50%;
-      }
-    
-      50% {
-        background-position: 100% 50%;
-      }
-    
-      100% {
-        background-position: 0% 50%;
-      }
-    }
-}
 
 .info-coins-container {
   display: flex;
   width: 90%;
   height: 100vh;
   flex-direction: column-reverse;
-  justify-content: space-between;
-}
-
-.info-coins-container-large-medium {
-  display: flex;
-  width: 90%;
-  height: 100vh;
-  flex-direction: column-reverse;
   justify-content: space-around;
 }
 
-.converter-container {
-  height: 30vh;
-  width: 30%;
-  align-items: center;
-
-}
-
-.converter-container-small-xSmal {
-  height: 30vh;
-  width: 80%;
-  align-items: center;
-
-}
 
 #graphic-container-cryptos {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.589);
@@ -93,7 +46,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
+  width: 90%;
 
   @keyframes slide-down {
     from {

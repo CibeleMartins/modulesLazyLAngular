@@ -1,14 +1,12 @@
 <app-spinner></app-spinner>
-<div class="{{flexDirectionColumn ? 'main-small' : 'main'}}" >
-
-    <div class="{{isLargeOrMedium ? 'info-coins-container-large-medium' : 'info-coins-container'}}">
-        <app-crypto-infos [navigateToHome]="true"></app-crypto-infos>
+<div class="main" >
+    <div class="info-coins-container">
+        <div class="crypto-infos-container">
+            <app-crypto-infos [navigateToHome]="true"></app-crypto-infos>
+        </div>
         <div id="graphic-container-cryptos">
             <canvas #canvas id="canvas-cryptos">{{graphicCryptos}}</canvas>
         </div>
     </div>
     
-    <div class="{{isSmallorXsmall ? 'converter-container-small-xSmall' : 'converter-container'}}">
-       <div></div>
-    </div>
 </div>

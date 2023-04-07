@@ -39,24 +39,22 @@ export class CryptoCoinsComponent {
       this.isLargeOrMedium = false
       this.isSmallorXsmall = false
       if (result.breakpoints[Breakpoints.Small]) {
-        console.log('small')
+      
         this.flexDirectionColumn = true;
         this.isSmallorXsmall = true
       }
 
       if (result.breakpoints[Breakpoints.XSmall]) {
-        console.log('Xsmall')
+      
         this.flexDirectionColumn = true;
         this.isSmallorXsmall = true
       }
 
       if (result.breakpoints[Breakpoints.Medium]) {
-        console.log('Medium')
         this.isLargeOrMedium = true
       }
 
       if (result.breakpoints[Breakpoints.Large]) {
-        console.log('Large')
         this.isLargeOrMedium = true
       }
     })
