@@ -1,4 +1,4 @@
 
-<button id="show-converter-action" *ngIf="!conversorIsShowing" (click)="showConverter()">
+<button [ngStyle]="{borderRadius: modifyBorder ? '14px 0px 0px 14px' : '14px'}" id="show-converter-action" *ngIf="!conversorIsShowing" (click)="showConverter()">
       <span class="material-symbols-outlined"> currency_exchange </span>
 </button>

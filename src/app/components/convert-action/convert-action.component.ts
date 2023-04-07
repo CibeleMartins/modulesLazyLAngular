@@ -12,6 +12,7 @@ export class ConvertActionComponent {
   conversorIsShowing!: boolean;
   @Input() navigateToCoinsDashboardAction!: boolean;
   @Input() isHide!: boolean;
+  @Input() modifyBorder!: boolean;
 
   constructor(private coinService: CoinService, private router: Router) { }
 

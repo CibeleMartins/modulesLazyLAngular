@@ -33,30 +33,5 @@ export class CryptoCoinsComponent {
 
     this.graphicCryptos = this.cryptoCoinService.getGraphicCrytos();
 
-    this.breakpointService.observe([Breakpoints.Small, Breakpoints.XSmall, Breakpoints.Medium, Breakpoints.Large]).subscribe((result) => {
-
-      this.flexDirectionColumn = false;
-      this.isLargeOrMedium = false
-      this.isSmallorXsmall = false
-      if (result.breakpoints[Breakpoints.Small]) {
-      
-        this.flexDirectionColumn = true;
-        this.isSmallorXsmall = true
-      }
-
-      if (result.breakpoints[Breakpoints.XSmall]) {
-      
-        this.flexDirectionColumn = true;
-        this.isSmallorXsmall = true
-      }
-
-      if (result.breakpoints[Breakpoints.Medium]) {
-        this.isLargeOrMedium = true
-      }
-
-      if (result.breakpoints[Breakpoints.Large]) {
-        this.isLargeOrMedium = true
-      }
-    })
   }
 }

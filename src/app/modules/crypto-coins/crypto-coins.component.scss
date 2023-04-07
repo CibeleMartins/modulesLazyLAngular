@@ -8,7 +8,6 @@
     background-attachment: fixed;
     display:flex;
     align-items: center;
-    // justify-content: center;
     animation: colors 15s ease infinite;
     
     @keyframes colors {
@@ -33,6 +32,7 @@
   height: 100vh;
   flex-direction: column-reverse;
   justify-content: space-around;
+  align-items: center;
 }
 
 
@@ -41,7 +41,7 @@
   border-radius: 14px;
   background-color: #232323;
   animation: slide-down 300ms ease-out forwards;
-  height: 300px;
+  height: 400px;
   padding: 1em;
   display: flex;
   // align-items: center;
