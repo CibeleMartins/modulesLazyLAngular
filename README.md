@@ -1,5 +1,35 @@
 # Módulos, Lazy Loading e Interceptors em Angular!
 
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.1.6.
+
+<p align="center">
+    <img src='./src/assets/angular_typescript.png' alt="Logo" width="500">
+  <p align="center">
+     Sumário
+      <p align="center">
+        <a href="#o-que-são-módulos"> O que são Módulos? </a> |
+        <a href="#quando-e-como-podem-ser-utilizados"> Quando e como podem ser utilizados? </a> |
+        <a href="#módulos-de-roteamento"> Módulo de Roteamento </a> |
+        <a href="#módulo-compartilhado"> Módulo Compartilhado</a> |
+         <a href="#como-utilizar-subjects"> Módulo core </a> |
+        <a href="#observações-sobre-módulos"> Observações sobre Módulos</a> |
+        <a href="#conclusão-módulos"> Conclusão Módulos </a>
+        <a href="#o-que-é-lazy-loading"> O que é Lazy Loading? </a> |
+        <a href="#quando-e-como-pode-ser-utilizado"> Quando e como pode ser utilizado? </a> |
+        <a href="#observações-sobre-lazy-loading"> Observações sobre Lazy Loading </a> |
+          <a href="#conclusão-lazy-loading"> Conclusão Lazy Loading</a> |
+        <a href="#módulos-e-serviços"> Módulos e Serviços</a> |
+          <a href="#conclusão-módulos-e-serviços"> Conclusão Módulos e Serviços</a> |
+         <a href="#o-que-são-interceptors"> O que são Interceptors</a> |
+        <a href="#quando-e-como-podem-ser-utilizados"> Quando e como podem ser utilizados? </a> |
+        <a href="#observações-sobre-módulos"> Observações sobre Interceptors</a> |
+        <a href="#conclusão"> Conclusão</a>            
+       <br />
+        <br />
+     <h1 align="center"></h1>
+    </p>
+</p>
+
 ## O que são Módulos?
 Os módulos são uma forma de agrupar componentes, diretivas, serviços, pipes/'blocos de construção' de uma aplicação de acordo com a área da aplicação na qual serão utilizados e também, uma forma de organizar e deixar cada parte de código mais enxuta, fácil de fazer manutenção ou de ser encontrada. 
 
@@ -146,7 +176,7 @@ declarations: [
 ```
 Da mesma forma, se você tiver um componente dentro de outro, estes, devem fazer parte do mesmo módulo.
 
-### Módulo de roteamento
+## Módulo de Roteamento
 Como dito anteriormente, é muito comum a criação de módulos de roteamento para definir rotas de um módulo específico. Neste projeto por exemplo, o HomeCoinsModule tem um módulo de roteamento. Com isso, ao invés de dispor HomeCoinsComponent no arquivo de rotas da aplicação AppRoutingModule, isso é feito no módulo de rotas de HomeCoinsModule:
 
 ```javascript
@@ -215,7 +245,7 @@ Sem a necessidade de definir a rota para o HomeCoinsComponent, visto que agora, 
 
 Além disso, criar um módulo de roteamento para um módulo da aplicação é parte do pré-requisito para que seja possível aplicar um dos recursos de otimização.
 
-## Módulo compartilhado
+## Módulo Compartilhado
 Nesta aplicação, foram criados dois módulos, o HomeCoinsModule e o CryptoCoinsModule. Ocorre que ambos, utilizam quase que os mesmos recursos e componentes. Quando há mais de um módulo na aplicação que vão utilizar os mesmos recursos e componentes, é possível criar um módulo compartilhado, o qual pode agrupar tudo isso e posteriormente, pode ser importado nos módulos que precisarão de tais recursos e componentes.
 
 Foi criado um módulo compartilhado chamado SharedModule, o qual tem todos os recursos e componentes utilizados em HomeCoinsModule e CryptoCoinsModule:
@@ -318,7 +348,7 @@ Nessa aplicação ainda não foi implementado um módulo core, mas além dos mó
 
 O CoreModule, pode ser usado, por exemplo, para mover e agrupar serviços que antes, foram importados no array providers de AppModule. Se os serviços foram implementados ​​com @Injetable({providedIn: 'root'}), conforme essa documentação sobre [Serviços](https://github.com/CibeleMartins/angularServices) orienta, um CoreModule apenas para os serviços não seria necessário, mas caso contrário, sim. No caso do uso de Interceptors por exemplo, também poderiam ser movidos para o array providers de um CoreModule deixando o AppModule mais 'clean', o que centralizaria os recursos essenciais da aplicação em um único módulo.
 
-## Observações 
+## Observações sobre Módulos
 Tem alguns recursos que fazem parte de alguns módulos que são importados no módulo principal de uma aplicação (app.module.ts). Como por exemplo, o ngFor, ngIf que são disponibilizados pelo BrowserModule. Ocorre que este BrowserModule deve ser importado apenas uma vez, porque além de trazer os recursos/diretivas nfIf e ngFor, também faz um trabalho geral na aplicação que deve ser executado uma vez. Para que seja possível ter acesso a recursos deste módulo sem precisar importá-lo mais de uma vez, deve ser utilizado CommonModule em outros módulos da aplicação que precisem de tais recursos.
 
 O FormsModule tem uma matriz de declarations dentro dele, com todas as diretrizes e recursos relacionados a formulários. Para que não seja necessário importar cada recurso relacionado a formulários na matriz declarations do app.module.ts, ou até mesmo o FormsModule na matriz de imports de app.module.ts, importamos o FormsModule na matriz imports dos módulos criados na aplicação.
@@ -468,7 +498,7 @@ export class AppRoutingModule { }
 Dessa maneira, o roteador AppRoutingModule é configurado com uma estratégia de pré-carregamento. Pré-carregar módulos que utilizam o Lazy Loading, é quase como fazer um pré-carregamento do Lazy Loading para evitar esse atraso em áreas da aplicação que o usuário acessa com mais frequência e que está sendo utilizado o 'carregamento lento'.
 
 Quando o usuário solicita o carregamento de um modulo acessando uma rota, este, já foi pré-carregado. A vantagem é que o download de pacote inicial da aplicação ainda é pequeno, fazendo com que o carregamento inicial seja rápido, mas quando o usuário está navegando entre páginas, carregamos previamente alguns pacotes para diminuir o atraso que pode ser gerado pelo download do pacote. Assim tanto o carregamento inicial, como carregamentos subsequentes ficam mais ágeis.
-## Observações
+## Observações sobre Lazy Loading
 É possível definir suas prórpias 'regras' de pré-carregamento de módulos.
 
 ## Conclusão Lazy Loading
@@ -492,10 +522,10 @@ Há uma diferença se você adicionar um serviço ao providers de um módulo car
 ## Conclusão Módulos e Serviços
 Portanto, serviços devem sempre utilizar o injetor raiz em AppModule ou utilizar a configuração em @Injectable. Claro que nos casos em que houver necessidade de injetar um serviço apenas em uma árvore de componentes isso pode ser feito, mas injetar serviços em módulos com carregamento padrão por exemplo, deve ser evitado, porque é o mesmo que faze-lo em AppModule. Nos casos dos módulos carregados com Lazy Loading, você pode injetar serviços mas faça isso quando tiver certeza que deseja ter uma intância separada desse serviço lá.
 
-# O que são Interceptors?
+## O que são Interceptors?
 Em palavras simples, eu diria que é um recurso muito útil do Angular que como o próprio nome indica, nos permite interceptar as requisições feitas na aplicação, ou seja, antes que a requisição termine e um pouco antes da resposta é possível executar algum código e até memso interagir com o objeto da requisição e o seu retorno.
 
-# Como e quando podem ser utilizados?
+## Como e quando podem ser utilizados?
 Podem ser utilizados em cenários nos quais é necessário fazer requisições em uma aplicação, mas tem algumas coisas que precisam ser enviadas nessas requisições e você não quer repetir isso em todas elas. Ou no caso da aplicação de exemplo, que a cada requisição deve ser exibido um componente de loading.
 
 Para criar um interceptor você deve criar um arquivo '.interceptor.ts'o qual deve contar uma classe e essa classe deve implementar a interface 'HttpInterceptor', que pode ser importada de '@angular/common/http', veja um exemplo: 
@@ -614,11 +644,11 @@ A segunda chave desse objeto é 'useClass', aqui é necessário dizer ao Angular
 
 Também é possível inserir uma terceira chave, a 'multi'. Essa chave serve para que nos casos em que houver mais de um interceptor na aplicação, o Angular não substitua nenhum por esse declarado.
 
-# Observações
+## Observações sobre Interceptors
 
 Também é possível interagir com o objeto da requisição, não somente com o retorno assim como foi feito no código de exemplo.
 
 E também é possível ter múltiplos interceptors em uma aplicação Angular, mas a ordem na qual você fornece os interceptors na aplicação é muito importante, porque essa será a ordem na qual eles serão executados, mas a sintaxe de injeção é a mesma.
 
-# Conclusão
+## Conclusão
 Essa documentação está sujeita a atualizações, caso tenha dúvidas ou quiser interagir pode enviar um pull request ai ou me chamar no linkedin [Cibele Martins](www.linkedin.com/in/cibelemartinssss), bons estudos!!
