@@ -171,10 +171,10 @@ export class CryptoCoinService {
                                     display: false
                                 },
                                 ticks: {
-                                    display: false,
+                                    display: true,
 
                                 }
-                            }
+                            },
                         },
                         responsive: true,
                         maintainAspectRatio: false,
