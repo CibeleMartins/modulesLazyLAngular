@@ -13,7 +13,7 @@
         <img class="crypto-icon" src="{{ crypto.symbol }}" />
         <p id="info">{{ crypto.name }}</p>
         <p id="info">{{ crypto.buyValue }}</p>
-        <p id="{{crypto.priceVariationPercentage.toString().includes('-') ? 'info-variation-price-negative' : 'info-variation-price-positive'}}">{{ crypto.priceVariationPercentage }}</p>
+        <p id="{{crypto.priceVariationPercentage.toString().includes('-') ? 'info-variation-price-negative' : 'info-variation-price-positive'}}">{{ crypto.priceVariationPercentage.toString() + '%' }}</p>
       </div>
     </div>
     <!--REPETE O ARRAY NOVAMENTE-->
@@ -22,7 +22,7 @@
         <img class="crypto-icon" src="{{ crypto.symbol }}" />
         <p id="info">{{ crypto.name }}</p>
         <p id="info">{{ crypto.buyValue }}</p>
-        <p id="{{crypto.priceVariationPercentage.toString().includes('-') ? 'info-variation-price-negative' : 'info-variation-price-positive'}}">{{ crypto.priceVariationPercentage }}</p>
+        <p id="{{crypto.priceVariationPercentage.toString().includes('-') ? 'info-variation-price-negative' : 'info-variation-price-positive'}}">{{ crypto.priceVariationPercentage.toString() + '%' }}</p>
       </div>
     </div>
   </div>
