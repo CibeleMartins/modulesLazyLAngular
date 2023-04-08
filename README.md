@@ -215,8 +215,7 @@ Sem a necessidade de definir a rota para o HomeCoinsComponent, visto que agora, 
 
 Além disso, criar um módulo de roteamento para um módulo da aplicação é parte do pré-requisito para que seja possível aplicar um dos recursos de otimização.
 
-## Módulos compartilhados
-
+## Módulo compartilhado
 Nesta aplicação, foram criados dois módulos, o HomeCoinsModule e o CryptoCoinsModule. Ocorre que ambos, utilizam quase que os mesmos recursos e componentes. Quando há mais de um módulo na aplicação que vão utilizar os mesmos recursos e componentes, é possível criar um módulo compartilhado, o qual pode agrupar tudo isso e posteriormente, pode ser importado nos módulos que precisarão de tais recursos e componentes.
 
 Foi criado um módulo compartilhado chamado SharedModule, o qual tem todos os recursos e componentes utilizados em HomeCoinsModule e CryptoCoinsModule:
@@ -315,14 +314,12 @@ export class CryptoCoinsModule {}
 Dessa maneira, as características que estiveram presentes em mais de um módulo, funcionam de maneira compartilhada, além de ajudar a evitar a repetição de código e ter módulos mais enxutos.
 
 ## Módulo Core
-
 Nessa aplicação ainda não foi implementado um módulo core, mas além dos módulos e dos módulos compartilhados, existe este terceiro 'tipo' de módulo. Todos esses módulos são criados da mesma forma, com o decorator @NgModule. O que os difere, é o que colocamos lá e como os usamos.
 
 O CoreModule, pode ser usado, por exemplo, para mover e agrupar serviços que antes, foram importados no array providers de AppModule. Se os serviços foram implementados ​​com @Injetable({providedIn: 'root'}), conforme essa documentação sobre [Serviços](https://github.com/CibeleMartins/angularServices) orienta, um CoreModule apenas para os serviços não seria necessário, mas caso contrário, sim. No caso do uso de Interceptors por exemplo, também poderiam ser movidos para o array providers de um CoreModule deixando o AppModule mais 'clean', o que centralizaria os recursos essenciais da aplicação em um único módulo.
 
-## Observações deste tópico
-
-Tem alguns recursos que fazem parte de alguns módulos que são importados módulo principal de uma aplicação (app.module.ts). Como por exemplo, o ngFor, ngIf que são disponibilizados pelo BrowserModule. Ocorre que este BrowserModule deve ser importado apenas uma vez, porque além de trazer os recursos/diretivas nfIf e ngFor, também faz um trabalho geral na aplicação que deve ser executado uma vez. Para que seja possível ter acesso a recursos deste módulo sem precisar importá-lo mais de uma vez, deve ser utilizado CommonModule em outros módulos da aplicação que precisem de tais recursos.
+## Observações 
+Tem alguns recursos que fazem parte de alguns módulos que são importados no módulo principal de uma aplicação (app.module.ts). Como por exemplo, o ngFor, ngIf que são disponibilizados pelo BrowserModule. Ocorre que este BrowserModule deve ser importado apenas uma vez, porque além de trazer os recursos/diretivas nfIf e ngFor, também faz um trabalho geral na aplicação que deve ser executado uma vez. Para que seja possível ter acesso a recursos deste módulo sem precisar importá-lo mais de uma vez, deve ser utilizado CommonModule em outros módulos da aplicação que precisem de tais recursos.
 
 O FormsModule tem uma matriz de declarations dentro dele, com todas as diretrizes e recursos relacionados a formulários. Para que não seja necessário importar cada recurso relacionado a formulários na matriz declarations do app.module.ts, ou até mesmo o FormsModule na matriz de imports de app.module.ts, importamos o FormsModule na matriz imports dos módulos criados na aplicação.
 
@@ -333,7 +330,6 @@ O HttpClientModule é uma exceção, porque ele só fornece serviços, não dire
 A única exceção são os serviços. Estes devem ser configurados apenas uma vez e então, podem ser usados ​​em toda a aplicação.
 
 ## Conclusão Módulos
-
 A separação de áreas e recursos de uma aplicação em múltiplos módulos pode tornar a aplicação mais organizada e os códigos mais enxutos e centralizados, o que também torna a manutenção mais fácil.
 
 Além disso e, novamente, essa é a forma pela qual o Angular consegue saber quais são sa partes e características que constroem a aplicação e esse tipo de prática é quase um pré-requisito para aplicar um recurso muito importante de otimização.
@@ -341,7 +337,6 @@ Além disso e, novamente, essa é a forma pela qual o Angular consegue saber qua
 Esse recurso é muito utilizado em aplicações maiores, mas a nível de exemplificação foi aplicado na aplicação desta documentação, segue no próximo tópico.
 
 ## O que é Lazy Loading?
-
 É um recurso que utiliza o carregamento lento para ajudar a carregar apenas a seção/módulo necessário, e atrasa o restante, até que seja necessário para o usuário.
 
 Imagine que você tem duas rotas em sua aplicação e em cada uma delas é carregado um  módulo, quando uma delas é visitada o módulo correspondente é carregado. Quando não utilizamos módulos, sempre que visitamos qualquer página, carregamos tudo.
@@ -349,7 +344,6 @@ Imagine que você tem duas rotas em sua aplicação e em cada uma delas é carre
 O que faz mais sentido e é feito com Lazy Loading, é carregar o código que pertence a uma determinada área da aplicação, somente quando esta área for acessada.
 
 ## Quando e como pode ser utilizado?
-
 Se tratando de aplicações maiores isso pode ajudar muito no desempenho, porque inicialmente é baixado um pacote de código menor e de acordo com a demanda, são 'baixados/disponibilizados' mais módulos/código. Com isso, o tempo de inicialização da aplicação diminui.
 
 Mas é claro que, o Lazy Loading faz muito mais sentido se aplicado em módulos que representam áreas da aplicação nas quais o usuário acessa com menor frequência, pois evitaria o carregamento desses módulos sem necessidade, sem o usuário precisar deles, caso contrário, pode implicar em uma certa desvantagem que veremos mais adiante.
@@ -601,7 +595,7 @@ Bom, o que ta acontecendo ai é o seguinte:
 </div>
 ```
 
-4 - Dentro do interceptor também pode interagir com o retorno da requisição, o que foi feito nessa aplicação, foi utilizar um pipe e o operador 'finalize()' que conforme a documentação de (RXJS)[https://www.learnrxjs.io/learn-rxjs/operators/utility/finalize] sugere: 'Execute a função de retorno de chamada quando o observável for concluído', ou seja, após o observável da requisição ser concluído, retorna alguma coisa.
+4 - Dentro do interceptor também pode interagir com o retorno da requisição, o que foi feito nessa aplicação, foi utilizar um pipe e o operador 'finalize()' que conforme a documentação de [RXJS](https://www.learnrxjs.io/learn-rxjs/operators/utility/finalize) sugere: 'Execute a função de retorno de chamada quando o observável for concluído', ou seja, após o observável da requisição ser concluído, retorna alguma coisa.
 
 5 - Então, descrementamos a propriedade 'this.totalRequests' e quando ela está vazia, sabemos que a reuisição foi concluída.
 
@@ -627,5 +621,4 @@ Também é possível interagir com o objeto da requisição, não somente com o 
 E também é possível ter múltiplos interceptors em uma aplicação Angular, mas a ordem na qual você fornece os interceptors na aplicação é muito importante, porque essa será a ordem na qual eles serão executados, mas a sintaxe de injeção é a mesma.
 
 # Conclusão
-
-Essa documentação está sujeita a atualizações, caso tenha dúvidas ou quiser interagir pode enviar um pull request ai ou me chamar no linkedin (Cibele Martins)[www.linkedin.com/in/cibelemartinssss], bons estudos!!
+Essa documentação está sujeita a atualizações, caso tenha dúvidas ou quiser interagir pode enviar um pull request ai ou me chamar no linkedin [Cibele Martins](www.linkedin.com/in/cibelemartinssss), bons estudos!!
