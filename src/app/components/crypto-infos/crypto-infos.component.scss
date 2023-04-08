@@ -19,6 +19,7 @@
 #info {
     font-size: 15px;
     letter-spacing: 2px;
+      color: white;
 }
 
 .crypto-icon {
@@ -57,7 +58,7 @@
     justify-content: space-evenly;
     align-items: center;
     padding: 10px;
-    color: white;
+    // color: white;
     overflow: hidden;
     perspective: 100px;
     cursor: pointer;
@@ -88,4 +89,16 @@
 
 #img-crypto-dashboard-action {
     width: 40px;
+}
+
+#info-variation-price-positive {
+    font-size: 15px;
+    letter-spacing: 2px;
+    color: green;
+}
+
+#info-variation-price-negative {
+    font-size: 15px;
+    letter-spacing: 2px;
+    color: red;
 }

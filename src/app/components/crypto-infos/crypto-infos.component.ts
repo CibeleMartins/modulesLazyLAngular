@@ -14,7 +14,7 @@ export class CryptoInfosComponent {
   @Input() navigateToHome!: boolean;
   @Input() width!:string;
   @Input() background!:string;
-  coinsNotSymbol = [
+  coinsNotSymbol: string[] = [
     'bnbbrl',
     'ltcbrl',
     'bttbrl',
@@ -25,7 +25,7 @@ export class CryptoInfosComponent {
     'galbrl',
     'aptbrl',
     'linkbrl'
-  ]
+  ];
 
   constructor(private cryptoService: CryptoCoinService, private breakpointService: BreakpointObserver, private router: Router) {
 
@@ -47,7 +47,7 @@ export class CryptoInfosComponent {
       })
       this.cryptoInfos = data
       this.cryptoInfos = this.cryptoInfos.filter((i: any)=> !this.coinsNotSymbol.includes((i.name.toLowerCase())))
-      // console.log(this.cryptoInfos)
+      console.log(this.cryptoInfos)
     })
    
   }
