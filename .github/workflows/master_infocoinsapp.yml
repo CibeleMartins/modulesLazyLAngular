@@ -53,4 +53,4 @@ jobs:
           app-name: 'infoCoinsApp'
           slot-name: 'Production'
           package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_D4683FFE0C6F4749BD85B20190054621 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_E173F573D1CF41D78A75A07BCBFE4805 }}
